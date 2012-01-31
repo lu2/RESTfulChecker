@@ -1,0 +1,5 @@
+RESTfulChecker - utility for checking if an API is really RESTful.
+----------------------------------------------------
+
+The Eclipse project with sources for my utility for testing if API is RESTful. The project is ready to be deployed on GAE.
+
