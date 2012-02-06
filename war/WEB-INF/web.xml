@@ -73,7 +73,7 @@
  
   	<servlet-mapping>
     	<servlet-name>apichecker</servlet-name>
-    	<url-pattern>/*</url-pattern>
+    	<url-pattern>/checkapi/*</url-pattern>
   	</servlet-mapping>
 
 	<welcome-file-list>

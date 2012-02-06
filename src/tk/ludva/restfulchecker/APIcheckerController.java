@@ -19,8 +19,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class APIcheckerController {
+	
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public String showCheckAPI(RemoteResource remoteResource){
+		return "checkapi";
+	}
+	
+	@RequestMapping(value="/", method=RequestMethod.POST)
+	public String doCheckAPI(RemoteResource remoteResource){
+		return "checkapi";
+	}
 
-	@RequestMapping(value="/checkapi/", method=RequestMethod.POST)
+	@RequestMapping(value="old", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkAPI(@RequestParam String apiEntryURL) throws APINotAccesibleException {
 		StringBuilder response = new StringBuilder();
