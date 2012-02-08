@@ -8,6 +8,17 @@ public class Header {
 	
 	public Header() {
 	}
+	
+	
+
+	public Header(String headerKey, String headerValue, boolean inUse) {
+		super();
+		this.headerKey = headerKey;
+		this.headerValue = headerValue;
+		this.inUse = inUse;
+	}
+
+
 
 	public String getHeaderKey() {
 		return headerKey;

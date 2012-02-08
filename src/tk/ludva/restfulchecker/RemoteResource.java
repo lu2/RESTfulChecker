@@ -1,15 +1,16 @@
 package tk.ludva.restfulchecker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RemoteResource {
 	private String url="http://";
 	private String method;
-	private List<Header> requestHeaders;
-	private List<Header> responseHeaders;
+	private List<Header> requestHeaders = new ArrayList<Header>();
+	private List<Header> responseHeaders = new ArrayList<Header>();
 	private String requestBody;
 	private String responseBody;
-	private String responseCode;
+	private int responseCode;
 	private String responseMessage;
 
 	public RemoteResource() {
@@ -63,12 +64,12 @@ public class RemoteResource {
 		this.responseBody = responseBody;
 	}
 
-	public String getResponseCode() {
+	public int getResponseCode() {
 		return responseCode;
 	}
 
-	public void setResponseCode(String responseCode) {
-		this.responseCode = responseCode;
+	public void setResponseCode(int i) {
+		this.responseCode = i;
 	}
 
 	public String getResponseMessage() {

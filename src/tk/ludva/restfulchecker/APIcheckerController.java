@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,15 +28,23 @@ public class APIcheckerController {
 			conn = (HttpURLConnection)remoteUrl.openConnection();
 			conn.setRequestMethod(remoteResource.getMethod());
 			
-			System.out.println(conn.getResponseCode()+" "+conn.getResponseMessage());
-			for (int n=0; n<conn.getHeaderFields().size(); n++) {
-				System.out.println(conn.getHeaderFieldKey(n)+": "+conn.getHeaderField(n));
+			for (Iterator<Header> iterator = remoteResource.getRequestHeaders().iterator(); iterator.hasNext();) {
+				Header header = (Header) iterator.next();
+				if (header.isInUse()) conn.setRequestProperty(header.getHeaderKey(), header.getHeaderValue());
 			}
+			
+			remoteResource.setResponseCode(conn.getResponseCode());
+			remoteResource.setResponseMessage(conn.getResponseMessage());
+			for (int n=0; n<conn.getHeaderFields().size(); n++) {
+				remoteResource.getResponseHeaders().add(new Header(conn.getHeaderFieldKey(n), conn.getHeaderField(n), true));
+			}
+			StringBuilder responseBody = new StringBuilder();
 			String radek;
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			while ((radek = reader.readLine()) != null) {
-				System.out.println(radek);
+				responseBody.append(radek);
 			}
+			remoteResource.setResponseBody(responseBody.toString());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

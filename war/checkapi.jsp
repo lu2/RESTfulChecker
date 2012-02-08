@@ -56,7 +56,16 @@ function displayAddHeader() {
     </form:form>
     
     <h2>Response:</h2>
-    
+    <p><c:out value="${remoteResource.responseCode}"/> <c:out value="${remoteResource.responseMessage}"/></p>
+    <table>
+    <c:forEach items="${remoteResource.responseHeaders}" var="responseHeader">
+      <tr>
+        <td><c:out value="${responseHeader.headerKey}"/></td>
+        <td><c:out value="${responseHeader.headerValue}"/></td>
+      </tr>
+    </c:forEach>
+    </table>
+    <p><textarea><c:out value="${remoteResource.responseBody}"/></textarea></p>
 
   </body>
 </html>
