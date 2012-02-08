@@ -9,12 +9,12 @@
     <title>RESTfulChecker</title>
     <script type="text/javascript">
 function displayAddHeader() {
-  var rows = document.getElementsByTagName("tr");
-  var nextHeaderIndex = (rows.length-1);
-  var x = document.getElementById("headersTable");
+  var headersTable = document.getElementById("headersTable");
+  var rows = headersTable.getElementsByTagName("tr");
+  var nextHeaderIndex = (rows.length);
   var y = document.createElement('tr');
   y.innerHTML = '<td><input id="requestHeaders.headerKey'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerKey" type="text"/></td><td><input id="requestHeaders.headerValue'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerValue" type="text"/></td><td><input id="requestHeaders.inUse'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].inUse" type="checkbox" checked="yes"/></td>'
-  x.appendChild(y);
+  headersTable.appendChild(y);
 }
   </script>
   </head> 
