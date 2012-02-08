@@ -1,26 +1,19 @@
 package tk.ludva.restfulchecker;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class RemoteResource {
 	private String url="http://";
 	private String method;
-	private Map<String, String> requestHeaders;
-	private Map<String, String> responseHeaders;
+	private List<Header> requestHeaders;
+	private List<Header> responseHeaders;
 	private String requestBody;
 	private String responseBody;
 	private String responseCode;
 	private String responseMessage;
 
 	public RemoteResource() {
-		requestHeaders = new HashMap<String, String>();
-		requestHeaders.put("hlavicka", "jeji hodnota");
-		requestHeaders.put("hlavicka2", "jeji hodnota2");
 	}
 
 	public String getUrl() {
@@ -39,19 +32,19 @@ public class RemoteResource {
 		this.method = method;
 	}
 
-	public Map<String, String> getRequestHeaders() {
+	public List<Header> getRequestHeaders() {
 		return requestHeaders;
 	}
 
-	public void setRequestHeaders(Map<String, String> requestHeaders) {
+	public void setRequestHeaders(List<Header> requestHeaders) {
 		this.requestHeaders = requestHeaders;
 	}
 
-	public Map<String, String> getResponseHeaders() {
+	public List<Header> getResponseHeaders() {
 		return responseHeaders;
 	}
 
-	public void setResponseHeaders(Map<String, String> responseHeaders) {
+	public void setResponseHeaders(List<Header> responseHeaders) {
 		this.responseHeaders = responseHeaders;
 	}
 
@@ -86,21 +79,5 @@ public class RemoteResource {
 	public void setResponseMessage(String responseMessage) {
 		this.responseMessage = responseMessage;
 	}	
-	
-	public Set<String> getRequestHeadersKeys() {
-		return requestHeaders.keySet();
-	}
-	
-	public void setRequestHeadersKeys(List<String> requestHeadersKeys) {
-		requestHeaders = new HashMap<String, String>();
-		for (Iterator<String> iterator = requestHeadersKeys.iterator(); iterator.hasNext();) {
-			String string = (String) iterator.next();
-			requestHeaders.put(string, null);
-		}
-	}
-	
-	public Collection<String> getRequestHeaderValues() {
-		return requestHeaders.values();
-	}
 	
 }

@@ -33,16 +33,19 @@
       </table>
       
       <table>
-      	<c:forEach items="${remoteResource.requestHeadersKeys}" var="neco">
-      	  <tr>
-      	    <td>
-      	      <input type="text" id="requestHeadersKeys[]" name="requestHeadersKeys[]" value="${neco}"/>
-      	    </td>
-      	    <td>
-      	      <input type="text" id="requestHeadersValues[]" name="requestHeadersValues[]" value="${remoteResource.requestHeaders[neco]}"/>
-      	    </td>
-      	  </tr>
-      	</c:forEach>
+      <c:set var="lastHeaderIndex" value="-1"/>
+      <c:forEach items="${remoteResource.requestHeaders}" varStatus="status" var="requestHeader">
+        <tr>
+          <td><form:input path="requestHeaders[${status.index}].headerKey" /></td>
+          <td><form:input path="requestHeaders[${status.index}].headerValue" /></td>
+        </tr>
+        <c:set var="lastHeaderIndex" value="${status.index}"/>
+      </c:forEach>
+      <c:set var="lastHeaderIndex" value="${lastHeaderIndex+1}"/>
+        <tr>
+          <td><input id="requestHeaders.headerKey" name="requestHeaders[${lastHeaderIndex}].headerKey" type="text"/></td>
+          <td><input id="requestHeaders.headerValue" name="requestHeaders[${lastHeaderIndex}].headerValue" type="text"/></td>
+        </tr>
       </table>
     </form:form>
     
