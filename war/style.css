@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+th {
+	min-width: 5em;
+}
+
+textarea {
+	width: 444px;
+	height: 155px;
+}
+
+#url {
+	width: 333px;
+}
+
+.headerField input {
+	width: 222px;
+}
+
+.responseHeaders {
+	font-size: 0.9em;
+}

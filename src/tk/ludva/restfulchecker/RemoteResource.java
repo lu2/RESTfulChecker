@@ -9,6 +9,7 @@ public class RemoteResource {
 	private List<Header> requestHeaders = new ArrayList<Header>();
 	private List<Header> responseHeaders = new ArrayList<Header>();
 	private String requestBody;
+	private boolean useRequestBody;
 	private String responseBody;
 	private int responseCode;
 	private String responseMessage;
@@ -78,6 +79,14 @@ public class RemoteResource {
 
 	public void setResponseMessage(String responseMessage) {
 		this.responseMessage = responseMessage;
+	}
+
+	public boolean isUseRequestBody() {
+		return useRequestBody;
+	}
+
+	public void setUseRequestBody(boolean useRequestBody) {
+		this.useRequestBody = useRequestBody;
 	}	
 	
 }

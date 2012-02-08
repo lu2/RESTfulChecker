@@ -1,6 +1,7 @@
 package tk.ludva.restfulchecker;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -27,12 +28,17 @@ public class APIcheckerController {
 			URL remoteUrl = new URL(remoteResource.getUrl());
 			conn = (HttpURLConnection)remoteUrl.openConnection();
 			conn.setRequestMethod(remoteResource.getMethod());
-			
 			for (Iterator<Header> iterator = remoteResource.getRequestHeaders().iterator(); iterator.hasNext();) {
 				Header header = (Header) iterator.next();
 				if (header.isInUse()) conn.setRequestProperty(header.getHeaderKey(), header.getHeaderValue());
 			}
-			
+			if (remoteResource.isUseRequestBody()) {
+				conn.setDoOutput(true);
+				DataOutputStream data = new DataOutputStream(conn.getOutputStream());
+				data.write(remoteResource.getRequestBody().getBytes());
+				data.flush();
+				data.close();
+			}
 			remoteResource.setResponseCode(conn.getResponseCode());
 			remoteResource.setResponseMessage(conn.getResponseMessage());
 			for (int n=0; n<conn.getHeaderFields().size(); n++) {
@@ -51,6 +57,9 @@ public class APIcheckerController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			if (conn != null) conn.disconnect();
 		}
 		return "checkapi";
 	}

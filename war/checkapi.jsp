@@ -7,13 +7,14 @@
   <head> 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
     <title>RESTfulChecker</title>
+    <link type="text/css" rel="stylesheet" href="/style.css"/>
     <script type="text/javascript">
 function displayAddHeader() {
   var headersTable = document.getElementById("headersTable");
   var rows = headersTable.getElementsByTagName("tr");
   var nextHeaderIndex = (rows.length);
   var y = document.createElement('tr');
-  y.innerHTML = '<td><input id="requestHeaders.headerKey'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerKey" type="text"/></td><td><input id="requestHeaders.headerValue'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerValue" type="text"/></td><td><input id="requestHeaders.inUse'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].inUse" type="checkbox" checked="yes"/></td>'
+  y.innerHTML = '<td><input id="requestHeaders.inUse'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].inUse" type="checkbox" checked="yes"/></td><td class="headerField"><input id="requestHeaders.headerKey'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerKey" type="text"/></td><td class="headerField"><input id="requestHeaders.headerValue'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerValue" type="text"/></td>'
   headersTable.appendChild(y);
 }
   </script>
@@ -46,18 +47,20 @@ function displayAddHeader() {
       <c:set var="lastHeaderIndex" value="-1"/>
       <c:forEach items="${remoteResource.requestHeaders}" varStatus="status" var="requestHeader">
         <tr>
-          <td><form:input path="requestHeaders[${status.index}].headerKey" /></td>
-          <td><form:input path="requestHeaders[${status.index}].headerValue" /></td>
           <td><form:checkbox path="requestHeaders[${status.index}].inUse" /> </td>
+          <td class="headerField"><form:input path="requestHeaders[${status.index}].headerKey" /></td>
+          <td class="headerField"><form:input path="requestHeaders[${status.index}].headerValue" /></td>
         </tr>
         <c:set var="lastHeaderIndex" value="${status.index}"/>
       </c:forEach>
       </table>
+      <h2>Body:</h2>
+      <form:checkbox path="useRequestBody" /> <form:textarea path="requestBody" />
     </form:form>
     
     <h2>Response:</h2>
     <p><c:out value="${remoteResource.responseCode}"/> <c:out value="${remoteResource.responseMessage}"/></p>
-    <table>
+    <table class="responseHeaders">
     <c:forEach items="${remoteResource.responseHeaders}" var="responseHeader">
       <tr>
         <td><c:out value="${responseHeader.headerKey}"/></td>
