@@ -4,14 +4,9 @@ public class Header {
 	
 	private String headerKey;
 	private String headerValue;
+	private boolean inUse;
 	
 	public Header() {
-	}
-
-	public Header(String headerKey, String headerValue) {
-		super();
-		this.headerKey = headerKey;
-		this.headerValue = headerValue;
 	}
 
 	public String getHeaderKey() {
@@ -28,6 +23,14 @@ public class Header {
 
 	public void setHeaderValue(String headerValue) {
 		this.headerValue = headerValue;
+	}
+
+	public boolean isInUse() {
+		return inUse;
+	}
+
+	public void setInUse(boolean inUse) {
+		this.inUse = inUse;
 	}
 	
 	

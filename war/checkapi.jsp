@@ -6,7 +6,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"> 
   <head> 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
-    <title>RESTfulChecker</title> 
+    <title>RESTfulChecker</title>
+    <script type="text/javascript">
+function displayAddHeader() {
+  var rows = document.getElementsByTagName("tr");
+  var nextHeaderIndex = (rows.length-1);
+  var x = document.getElementById("headersTable");
+  var y = document.createElement('tr');
+  y.innerHTML = '<td><input id="requestHeaders.headerKey'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerKey" type="text"/></td><td><input id="requestHeaders.headerValue'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerValue" type="text"/></td><td><input id="requestHeaders.inUse'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].inUse" type="checkbox" checked="yes"/></td>'
+  x.appendChild(y);
+}
+  </script>
   </head> 
   <body>
   <h1>RESTfulChecker</h1>
@@ -31,21 +41,17 @@
           <td><input type="submit" value="check this" /></td>
         </tr>
       </table>
-      
-      <table>
+      <input type="button" onclick="displayAddHeader();" value="Add header"/>
+      <table id="headersTable">
       <c:set var="lastHeaderIndex" value="-1"/>
       <c:forEach items="${remoteResource.requestHeaders}" varStatus="status" var="requestHeader">
         <tr>
           <td><form:input path="requestHeaders[${status.index}].headerKey" /></td>
           <td><form:input path="requestHeaders[${status.index}].headerValue" /></td>
+          <td><form:checkbox path="requestHeaders[${status.index}].inUse" /> </td>
         </tr>
         <c:set var="lastHeaderIndex" value="${status.index}"/>
       </c:forEach>
-      <c:set var="lastHeaderIndex" value="${lastHeaderIndex+1}"/>
-        <tr>
-          <td><input id="requestHeaders.headerKey" name="requestHeaders[${lastHeaderIndex}].headerKey" type="text"/></td>
-          <td><input id="requestHeaders.headerValue" name="requestHeaders[${lastHeaderIndex}].headerValue" type="text"/></td>
-        </tr>
       </table>
     </form:form>
     
