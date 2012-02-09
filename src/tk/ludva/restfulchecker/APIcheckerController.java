@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class APIcheckerController {
+	private static final Logger log = Logger.getLogger(APIcheckerController.class.getName());
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String showCheckAPI(RemoteResource remoteResource){
@@ -54,9 +56,11 @@ public class APIcheckerController {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.severe(e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.severe(e.getMessage());
 		}
 		finally {
 			if (conn != null) conn.disconnect();
