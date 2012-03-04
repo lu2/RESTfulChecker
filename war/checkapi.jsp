@@ -7,7 +7,7 @@
   <head> 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
     <title>RESTfulChecker</title>
-    <link type="text/css" rel="stylesheet" href="/style.css"/>
+    <link type="text/css" rel="stylesheet" href="../style.css"/>
     <script type="text/javascript">
 function displayAddHeader() {
   var headersTable = document.getElementById("headersTable");
@@ -22,7 +22,7 @@ function displayAddHeader() {
   <body>
   <h1>RESTfulChecker</h1>
   <h2>Request:</h2>
-    <form:form commandName="remoteResource" action="/checkapi/" >
+    <form:form commandName="remoteResource" >
       <table>
         <tr>
           <td>Perform </td>
