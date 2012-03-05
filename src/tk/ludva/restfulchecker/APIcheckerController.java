@@ -19,12 +19,62 @@ public class APIcheckerController {
 	private static final Logger log = Logger.getLogger(APIcheckerController.class.getName());
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String showCheckAPI(RemoteResource remoteResource){
+	public String showCheckAPI(ApiEntry remoteResource){
 		return "checkapi";
 	}
 	
 	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String doCheckAPI(RemoteResource remoteResource){
+	public String doCheckAPI(ApiEntry apiEntry){
+		HttpURLConnection conn = null;
+		try {
+			URL remoteUrl = new URL(apiEntry.getUrl());
+			conn = (HttpURLConnection)remoteUrl.openConnection();
+			conn.setRequestMethod(apiEntry.getMethod());
+			for (Iterator<Header> iterator = apiEntry.getRequestHeaders().iterator(); iterator.hasNext();) {
+				Header header = (Header) iterator.next();
+				if (header.isInUse()) conn.setRequestProperty(header.getHeaderKey(), header.getHeaderValue());
+			}
+			if (apiEntry.isUseRequestBody()) {
+				conn.setDoOutput(true);
+				DataOutputStream data = new DataOutputStream(conn.getOutputStream());
+				data.write(apiEntry.getRequestBody().getBytes());
+				data.flush();
+				data.close();
+			}
+			apiEntry.setResponseCode(conn.getResponseCode());
+			apiEntry.setResponseMessage(conn.getResponseMessage());
+			for (int n=0; n<conn.getHeaderFields().size(); n++) {
+				apiEntry.getResponseHeaders().add(new Header(conn.getHeaderFieldKey(n), conn.getHeaderField(n), true));
+			}
+			StringBuilder responseBody = new StringBuilder();
+			String radek;
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			while ((radek = reader.readLine()) != null) {
+				responseBody.append(radek);
+			}
+			apiEntry.setResponseBody(responseBody.toString());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.severe(e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.severe(e.getMessage());
+		}
+		finally {
+			if (conn != null) conn.disconnect();
+		}
+		return "checkapi";
+	}
+	
+	@RequestMapping(value="/client.html", method=RequestMethod.GET)
+	public String showClient(RemoteResource remoteResource){
+		return "client";
+	}
+	
+	@RequestMapping(value="/client.html", method=RequestMethod.POST)
+	public String doClient(RemoteResource remoteResource){
 		HttpURLConnection conn = null;
 		try {
 			URL remoteUrl = new URL(remoteResource.getUrl());
@@ -65,7 +115,7 @@ public class APIcheckerController {
 		finally {
 			if (conn != null) conn.disconnect();
 		}
-		return "checkapi";
+		return "client";
 	}
 
 }

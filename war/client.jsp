@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"> 
   <head> 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
-    <title>RESTfulChecker</title>
+    <title>RESTfulChecker Client</title>
     <link type="text/css" rel="stylesheet" href="../style.css"/>
     <script type="text/javascript">
 function displayAddHeader() {
@@ -20,9 +20,9 @@ function displayAddHeader() {
   </script>
   </head> 
   <body>
-  <h1>RESTfulChecker</h1>
+  <h1>RESTfulChecker Client</h1>
   <h2>Request:</h2>
-    <form:form commandName="apiEntry" >
+    <form:form commandName="remoteResource" >
       <table>
         <tr>
           <td>Perform </td>
@@ -45,7 +45,7 @@ function displayAddHeader() {
       <input type="button" onclick="displayAddHeader();" value="Add header"/>
       <table id="headersTable">
       <c:set var="lastHeaderIndex" value="-1"/>
-      <c:forEach items="${apiEntry.requestHeaders}" varStatus="status" var="requestHeader">
+      <c:forEach items="${remoteResource.requestHeaders}" varStatus="status" var="requestHeader">
         <tr>
           <td><form:checkbox path="requestHeaders[${status.index}].inUse" /> </td>
           <td class="headerField"><form:input path="requestHeaders[${status.index}].headerKey" /></td>
@@ -58,5 +58,17 @@ function displayAddHeader() {
       <form:checkbox path="useRequestBody" /> <form:textarea path="requestBody" />
     </form:form>
     
+    <h2>Response:</h2>
+    <p><c:out value="${remoteResource.responseCode}"/> <c:out value="${remoteResource.responseMessage}"/></p>
+    <table class="responseHeaders">
+    <c:forEach items="${remoteResource.responseHeaders}" var="responseHeader">
+      <tr>
+        <td><c:out value="${responseHeader.headerKey}"/></td>
+        <td><c:out value="${responseHeader.headerValue}"/></td>
+      </tr>
+    </c:forEach>
+    </table>
+    <p><textarea><c:out value="${remoteResource.responseBody}"/></textarea></p>
+
   </body>
 </html>
