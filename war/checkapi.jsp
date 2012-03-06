@@ -21,11 +21,11 @@ function displayAddHeader() {
   </head> 
   <body>
   <h1>RESTfulChecker</h1>
-  <h2>Request:</h2>
+  <p>${apiEntry.message}</p>
     <form:form commandName="apiEntry" >
       <table>
         <tr>
-          <td>Perform </td>
+          <c:if test="${apiEntry.showLevel>1 }">
           <td>
             <form:select path="method">
               <form:option value="OPTIONS"/>
@@ -37,11 +37,13 @@ function displayAddHeader() {
               <form:option value="CONNECT"/>
             </form:select>
           </td>
-          <td>on API entry URL:</td>
+          </c:if>
+          <td>Insert API entry URL:</td>
           <td><form:input path="url" /> </td>
           <td><input type="submit" value="check this" /></td>
         </tr>
       </table>
+      <c:if test="${apiEntry.showLevel>0}">
       <input type="button" onclick="displayAddHeader();" value="Add header"/>
       <table id="headersTable">
       <c:set var="lastHeaderIndex" value="-1"/>
@@ -54,8 +56,11 @@ function displayAddHeader() {
         <c:set var="lastHeaderIndex" value="${status.index}"/>
       </c:forEach>
       </table>
+      </c:if>
+      <c:if test="${apiEntry.showLevel>1 }">
       <h2>Body:</h2>
       <form:checkbox path="useRequestBody" /> <form:textarea path="requestBody" />
+      </c:if>
     </form:form>
     
   </body>

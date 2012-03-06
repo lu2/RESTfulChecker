@@ -7,7 +7,7 @@
 		http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5"
 		>
 		
-	<display-name>VIAGAESkeleton</display-name>
+	<display-name>RESTfulChecker</display-name>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
