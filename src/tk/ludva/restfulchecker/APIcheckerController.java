@@ -1,5 +1,7 @@
 package tk.ludva.restfulchecker;
 
+import java.util.Iterator;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,8 @@ public class APIcheckerController {
 			break;
 		case 200:
 			LinkExtrator links = new LinkExtrator();
-			apiEntry.setMessage("leads to "+links.grabHTMLLinks(apiEntry.getResponseBody()));
+			Set<String> urls = UrlWorker.getUrls(apiEntry.getUrl(), links.grabHTMLLinks(apiEntry.getResponseBody()));
+			apiEntry.setMessage("leads to "+urls);
 		}
 		return "checkapi";
 	}
