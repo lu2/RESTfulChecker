@@ -7,7 +7,37 @@ import java.util.Set;
 
 public class UrlWorker {
 
-	public static Set<String> getUrls(String currentUrlString, Set<String> odkazy) {
+	public static String constructUrl(String currentUrlString, String link)
+			throws MalformedURLException {
+		URL currentUrl = new URL(currentUrlString);
+		return constructUrl(currentUrl, link);
+	}
+
+	public static String constructUrl(URL currentUrl, String link) {
+		link = chop(link);
+		if (link.startsWith("http")) {
+			return link;
+		} else if (link.startsWith("/")) {
+			if (currentUrl.getHost().endsWith("/")) {
+				link = link.substring(1);
+			}
+			return (currentUrl.getProtocol() + "://" + currentUrl.getHost() + link);
+		} else if (link.startsWith("./")) {
+			link = link.substring(2);
+		}
+		String buildedUrl = currentUrl.getProtocol() + "://" + currentUrl.getHost() + currentUrl.getPath();
+//		buildedUrl = buildedUrl.substring(0, buildedUrl.lastIndexOf('/') + 1);
+		if (buildedUrl.endsWith("/")) {
+			
+		} else {
+			buildedUrl = buildedUrl+"/";
+		}
+		buildedUrl = buildedUrl + link;
+		return buildedUrl;
+	}
+
+	public static Set<String> getUrls(String currentUrlString,
+			Set<String> odkazy) {
 		URL currentUrl;
 		Set<String> urls = new HashSet<String>();
 		try {
@@ -16,30 +46,16 @@ public class UrlWorker {
 			e.printStackTrace();
 			return urls;
 		}
-		for (String odkaz : odkazy) {
-			odkaz = chop(odkaz);
-			if (odkaz.startsWith("http")) {
-				urls.add(odkaz);
-				}
-			else if (odkaz.startsWith("/")) {
-				if (currentUrl.getHost().endsWith("/")) {
-					odkaz = odkaz.substring(1);
-				}
-				urls.add(currentUrl.getProtocol()+"://"+currentUrl.getHost()+odkaz);
-			}
-			else if (odkaz.startsWith("./")) odkaz = odkaz.substring(2);
-				String vrat = currentUrl.getProtocol()+"://"+currentUrl.getHost()+currentUrl.getPath();
-				vrat = vrat.substring(0, vrat.lastIndexOf('/')+1);
-				vrat = vrat+odkaz;
-				urls.add(vrat);
-			}
+		for (String link : odkazy) {
+			urls.add(constructUrl(currentUrl, link));
+		}
 		return urls;
 	}
 
-	private static String chop(String odkaz) {
-		if (odkaz.startsWith("\"") && odkaz.endsWith("\"")) {
-			return odkaz.substring(1, odkaz.length()-1);
+	private static String chop(String link) {
+		if (link.startsWith("\"") && link.endsWith("\"")) {
+			return link.substring(1, link.length() - 1);
 		}
-		return odkaz;
+		return link;
 	}
 }

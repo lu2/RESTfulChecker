@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class RemoteResource {
+public class RemoteResource implements Cloneable {
 	private static final Logger log = Logger.getLogger(RemoteResource.class.getName());
 	private String url="http://";
 	private String method;
@@ -28,6 +28,7 @@ public class RemoteResource {
 	}
 	
 	public void sendRequest() {
+		deletePreviousResponse();
 		HttpURLConnection conn = null;
 		try {
 			URL remoteUrl = new URL(getUrl());
@@ -68,6 +69,13 @@ public class RemoteResource {
 		finally {
 			if (conn != null) conn.disconnect();
 		}
+	}
+
+	private void deletePreviousResponse() {
+		responseHeaders = new ArrayList<Header>();
+		responseBody = null;
+		responseCode = 0;
+		responseMessage = null;
 	}
 
 	public String getUrl() {
@@ -141,5 +149,9 @@ public class RemoteResource {
 	public void setUseRequestBody(boolean useRequestBody) {
 		this.useRequestBody = useRequestBody;
 	}	
+	
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 	
 }
