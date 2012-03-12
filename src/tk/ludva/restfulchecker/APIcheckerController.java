@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class APIcheckerController {
 	private static final Logger log = Logger.getLogger(APIcheckerController.class.getName());
 	private Map<String, ResourceNode> visitedUrls = new HashMap<String, ResourceNode>();
+	private Queue<ResourceNode> toVisit = new LinkedList<ResourceNode>();
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String showCheckAPI(ApiEntry remoteResource){
@@ -36,7 +39,8 @@ public class APIcheckerController {
 			Set<String> urls = UrlWorker.getUrls(apiEntry.getUrl(), links.grabHTMLLinks(apiEntry.getResponseBody()));
 			if (urls.size() > 0) {
 				ResourceNode currentResourceNode = new ResourceNode(apiEntry);
-				getResources(currentResourceNode);
+				toVisit.add(currentResourceNode);
+				doCrawle();
 				String message = "leads to <ul>"+currentResourceNode.toString()+"</ul>";
 				message = message.replace("<ul>[<li>", "<ul><li>");
 				message = message.replace("<ul>null</ul>", "");
@@ -51,14 +55,26 @@ public class APIcheckerController {
 		return "checkapi";
 	}
 	
+	private void doCrawle() {
+		ResourceNode currentResourceNode = toVisit.poll();
+		while (currentResourceNode != null) {
+			getResources(currentResourceNode);
+			currentResourceNode = toVisit.poll();
+		}
+	}
+	
 	private void getResources(ResourceNode currentResourceNode) {
 		LinkExtrator links = new LinkExtrator();
 		Set<String> urls = UrlWorker.getUrls(currentResourceNode.getCurrentResource().getUrl(), links.grabHTMLLinks(currentResourceNode.getCurrentResource().getResponseBody()));
-		if (urls.size( ) > 0) {
+		if (urls.size() > 0) {
 			RemoteResource nextResource;
+			int maxResourcesToLoad = 10;
 			for (String url : urls) {
+				if(--maxResourcesToLoad <= 0) break;
 				if (visitedUrls.containsKey(url)) {
-					currentResourceNode.getDescendants().add(visitedUrls.get(url));
+					ResourceNode visitedResourceNode = visitedUrls.get(url);
+					currentResourceNode.getDescendants().add(visitedResourceNode);
+					toVisit.addAll(currentResourceNode.getDescendants());
 				} else {
 					try {
 						nextResource = (RemoteResource) currentResourceNode.getCurrentResource().clone();
@@ -70,6 +86,8 @@ public class APIcheckerController {
 						} else {
 							ResourceNode nextResourceNode = new ResourceNode(nextResource);
 							currentResourceNode.getDescendants().add(nextResourceNode);
+							toVisit.add(nextResourceNode);
+							visitedUrls.put(url, nextResourceNode);
 						}
 					} catch (CloneNotSupportedException e) {
 						// TODO Auto-generated catch block
