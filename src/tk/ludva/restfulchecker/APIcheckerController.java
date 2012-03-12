@@ -64,18 +64,16 @@ public class APIcheckerController {
 	}
 	
 	private void getResources(ResourceNode currentResourceNode) {
+		if (visitedUrls.containsKey(currentResourceNode.getCurrentResource().getUrl())) {
+			return;
+		}
 		LinkExtrator links = new LinkExtrator();
 		Set<String> urls = UrlWorker.getUrls(currentResourceNode.getCurrentResource().getUrl(), links.grabHTMLLinks(currentResourceNode.getCurrentResource().getResponseBody()));
 		if (urls.size() > 0) {
 			RemoteResource nextResource;
 			int maxResourcesToLoad = 10;
 			for (String url : urls) {
-				if(--maxResourcesToLoad <= 0) break;
-				if (visitedUrls.containsKey(url)) {
-					ResourceNode visitedResourceNode = visitedUrls.get(url);
-					currentResourceNode.getDescendants().add(visitedResourceNode);
-					toVisit.addAll(currentResourceNode.getDescendants());
-				} else {
+				if(--maxResourcesToLoad < 0) break;
 					try {
 						nextResource = (RemoteResource) currentResourceNode.getCurrentResource().clone();
 						nextResource.setUrl(url);
@@ -87,15 +85,14 @@ public class APIcheckerController {
 							ResourceNode nextResourceNode = new ResourceNode(nextResource);
 							currentResourceNode.getDescendants().add(nextResourceNode);
 							toVisit.add(nextResourceNode);
-							visitedUrls.put(url, nextResourceNode);
 						}
 					} catch (CloneNotSupportedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
 				}
 			}
 		}
+		visitedUrls.put(currentResourceNode.getCurrentResource().getUrl(), currentResourceNode);
 	}
 	
 	/* Wrong idea to do it by dfs */
