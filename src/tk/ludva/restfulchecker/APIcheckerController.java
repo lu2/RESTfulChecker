@@ -46,6 +46,7 @@ public class APIcheckerController {
 				message = message.replace("<ul>null</ul>", "");
 				message = message.replace("</li>, <li>", "</li><li>");
 				message = message.replace("</li>]</ul>", "</li></ul>");
+				message = message.replace("</li>]<li>", "</li><li>");
 				apiEntry.setMessage(message);
 			} else {
 				apiEntry.setMessage("No descendats found");
@@ -73,10 +74,13 @@ public class APIcheckerController {
 			RemoteResource nextResource;
 			int maxResourcesToLoad = 10;
 			for (String url : urls) {
-				if(--maxResourcesToLoad < 0) break;
 					try {
 						nextResource = (RemoteResource) currentResourceNode.getCurrentResource().clone();
 						nextResource.setUrl(url);
+						if(--maxResourcesToLoad < 0) {
+							ResourceNode nextResourceNode = new ResourceNode(nextResource);
+							currentResourceNode.getDescendants().add(nextResourceNode);
+						} else {
 						nextResource.sendRequest();
 						if (nextResource.getResponseBody() == null) {
 							//Response without body - nonsense to parse it
@@ -85,6 +89,7 @@ public class APIcheckerController {
 							ResourceNode nextResourceNode = new ResourceNode(nextResource);
 							currentResourceNode.getDescendants().add(nextResourceNode);
 							toVisit.add(nextResourceNode);
+						}
 						}
 					} catch (CloneNotSupportedException e) {
 						// TODO Auto-generated catch block

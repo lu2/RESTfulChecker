@@ -32,6 +32,7 @@ public class RemoteResource implements Cloneable {
 		HttpURLConnection conn = null;
 		try {
 			URL remoteUrl = new URL(getUrl());
+//			System.out.println("Sending "+remoteUrl);
 			conn = (HttpURLConnection)remoteUrl.openConnection();
 			conn.setRequestMethod(getMethod());
 			for (Iterator<Header> iterator = getRequestHeaders().iterator(); iterator.hasNext();) {
@@ -62,9 +63,7 @@ public class RemoteResource implements Cloneable {
 			e.printStackTrace();
 			log.severe(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.severe(e.getMessage());
+			System.out.println("url "+conn.getURL()+" doesn't exists!");
 		}
 		finally {
 			if (conn != null) conn.disconnect();
