@@ -41,6 +41,7 @@ public class APIcheckerController {
 				ResourceNode currentResourceNode = new ResourceNode(apiEntry);
 				toVisit.add(currentResourceNode);
 				doCrawle();
+				apiEntry.setResourceNodes(currentResourceNode);
 				String message = "leads to <ul>"+currentResourceNode.toString()+"</ul>";
 				message = message.replace("<ul>[<li>", "<ul><li>");
 				message = message.replace("<ul>null</ul>", "");

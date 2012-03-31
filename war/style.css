@@ -20,3 +20,10 @@ textarea {
 .responseHeaders {
 	font-size: 0.9em;
 }
+
+.requestResponse {
+	position: absolute;
+	border: 1px solid black;
+	background-color: white;
+	visibility: hidden;
+}

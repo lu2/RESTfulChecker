@@ -3,6 +3,7 @@ package tk.ludva.restfulchecker;
 public class ApiEntry extends RemoteResource {
 	private int showLevel = 0;
 	private String message;
+	private ResourceNode resourceNodes;
 	
 	public ApiEntry() {
 		super();
@@ -25,6 +26,12 @@ public class ApiEntry extends RemoteResource {
 		this.message = message;
 	}
 	
-	
+	public ResourceNode getResourceNodes() {
+		return resourceNodes;
+	}
+
+	public void setResourceNodes(ResourceNode resourceNodes) {
+		this.resourceNodes = resourceNodes;
+	}
 	
 }
