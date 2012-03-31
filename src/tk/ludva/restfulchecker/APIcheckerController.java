@@ -85,6 +85,8 @@ public class APIcheckerController {
 						if (nextResource.getResponseBody() == null) {
 							//Response without body - nonsense to parse it
 							// TODO probably error in remote api - log it somehow
+							ResourceNode nextResourceNode = new ResourceNode(nextResource);
+							currentResourceNode.getDescendants().add(nextResourceNode);
 						} else {
 							ResourceNode nextResourceNode = new ResourceNode(nextResource);
 							currentResourceNode.getDescendants().add(nextResourceNode);
