@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import tk.ludva.restfulchecker.validators.RestValidator;
+
 @Controller
 public class APIcheckerController {
 	private static final Logger log = Logger.getLogger(APIcheckerController.class.getName());
@@ -42,9 +44,14 @@ public class APIcheckerController {
 				toVisit.add(currentResourceNode);
 				doCrawle();
 				apiEntry.setResourceNodes(currentResourceNode);
-				String message = "leads to <ul>"+currentResourceNode.toString()+"</ul>";
+				RestValidator restValidator = new RestValidator(currentResourceNode);
+				String validation;
+				if (restValidator.validateApi()) validation = "<h3>Your API is not RESTful.</h3>";
+				else validation = "<h3>Your API is not RESTful.</h3>";
+				String message = validation + "the tree of API is: <ul>"+currentResourceNode.toString()+"</ul>";
 				message = message.replace("<ul>[<li>", "<ul><li>");
 				message = message.replace("<ul>null</ul>", "");
+				message = message.replace("<ul>[]</ul>", "");
 				message = message.replace("</li>, <li>", "</li><li>");
 				message = message.replace("</li>]</ul>", "</li></ul>");
 				message = message.replace("</li>]<li>", "</li><li>");
@@ -69,7 +76,19 @@ public class APIcheckerController {
 		if (visitedUrls.containsKey(currentResourceNode.getCurrentResource().getUrl())) {
 			return;
 		}
+		try {
+			RemoteResource currentResourceOptions = (RemoteResource) currentResourceNode.getCurrentResource().clone();
+			currentResourceOptions.setMethod("OPTIONS");
+			currentResourceOptions.sendRequest();
+			currentResourceNode.setCurrentResourceOptions(currentResourceOptions);
+		} catch (CloneNotSupportedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		LinkExtrator links = new LinkExtrator();
+		if (currentResourceNode.getCurrentResource() == null) return;
+		if (currentResourceNode.getCurrentResource().getResponseBody() == null) return;
 		Set<String> urls = UrlWorker.getUrls(currentResourceNode.getCurrentResource().getUrl(), links.grabHTMLLinks(currentResourceNode.getCurrentResource().getResponseBody()));
 		if (urls.size() > 0) {
 			RemoteResource nextResource;
@@ -88,6 +107,7 @@ public class APIcheckerController {
 							// TODO probably error in remote api - log it somehow
 							ResourceNode nextResourceNode = new ResourceNode(nextResource);
 							currentResourceNode.getDescendants().add(nextResourceNode);
+							toVisit.add(nextResourceNode);
 						} else {
 							ResourceNode nextResourceNode = new ResourceNode(nextResource);
 							currentResourceNode.getDescendants().add(nextResourceNode);

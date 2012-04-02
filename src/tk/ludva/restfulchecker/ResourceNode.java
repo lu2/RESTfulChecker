@@ -1,11 +1,17 @@
 package tk.ludva.restfulchecker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import tk.ludva.restfulchecker.model.ViolationMessagesHolder;
 
 public class ResourceNode {
 	private RemoteResource currentResource;
+	private RemoteResource currentResourceOptions;
 	private List<ResourceNode> descendants;
+	private Map<String, ViolationMessagesHolder> violationMessages;
 	
 	public ResourceNode() {
 	}
@@ -22,6 +28,14 @@ public class ResourceNode {
 		this.currentResource = currentResource;
 	}
 
+	public RemoteResource getCurrentResourceOptions() {
+		return currentResourceOptions;
+	}
+
+	public void setCurrentResourceOptions(RemoteResource currentResourceOptions) {
+		this.currentResourceOptions = currentResourceOptions;
+	}
+
 	public List<ResourceNode> getDescendants() {
 		if (descendants == null) descendants = new ArrayList<ResourceNode>();
 		return descendants;
@@ -31,8 +45,26 @@ public class ResourceNode {
 		this.descendants = descendants;
 	}
 	
+	public Map<String, ViolationMessagesHolder> getViolationMessages() {
+		if (violationMessages == null) violationMessages = new HashMap<String, ViolationMessagesHolder>();
+		return violationMessages;
+	}
+
+	public void setViolationMessages(Map<String, ViolationMessagesHolder> violationMessages) {
+		this.violationMessages = violationMessages;
+	}
+	
+	public void addViolationMessage(String key, String message) {
+		if (getViolationMessages().containsKey(key)) {
+			getViolationMessages().get(key).addMessage(message);
+		} else {
+			getViolationMessages().put(key, new ViolationMessagesHolder(key, message));
+		}
+	}
+
 	public String toStringResponse() {
 		StringBuilder htmlOutput = new StringBuilder();
+		htmlOutput.append(violationMessages.values().toString());
 		htmlOutput.append("<div class=\"requestResponse\" id=\""+currentResource.getUrl()+"\">");
 		htmlOutput.append("<p>"+currentResource.getResponseCode()+" "+currentResource.getResponseMessage()+"</p>");
 		htmlOutput.append("<table class=\"responseHeaders\">");
@@ -45,11 +77,27 @@ public class ResourceNode {
 		htmlOutput.append("</table>");
 		htmlOutput.append("<p><textarea>"+currentResource.getResponseBody()+"</textarea></p>");
 		htmlOutput.append("</div>");
+		if (currentResourceOptions == null) {
+			return htmlOutput.toString();
+		}
+		htmlOutput.append("<div class=\"requestResponse\" id=\"o"+currentResourceOptions.getUrl()+"\">");
+		htmlOutput.append("<p>"+currentResourceOptions.getResponseCode()+" "+currentResourceOptions.getResponseMessage()+"</p>");
+		htmlOutput.append("<table class=\"responseHeaders\">");
+		for (Header responseHeader : currentResourceOptions.getResponseHeaders()) {
+			htmlOutput.append("<tr>");
+			htmlOutput.append("<td>"+responseHeader.getHeaderKey()+"</td>");
+			htmlOutput.append("<td>"+responseHeader.getHeaderValue()+"</td>");
+			htmlOutput.append("</tr>");
+		}
+		htmlOutput.append("</table>");
+		htmlOutput.append("<p><textarea>"+currentResourceOptions.getResponseBody()+"</textarea></p>");
+		htmlOutput.append("</div>");
 		return htmlOutput.toString();
 	}
 	
 	public String toStringDetail() {
-		return "<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"+currentResource.getUrl()+"\')); return false\" >#</a>";
+		return "<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"+currentResource.getUrl()+"\')); return false\" >#</a>" 
+	+ "<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'o"+currentResource.getUrl()+"\')); return false\" >o</a>";
 	}
 
 	@Override
