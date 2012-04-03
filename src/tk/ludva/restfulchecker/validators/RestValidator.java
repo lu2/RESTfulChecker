@@ -41,10 +41,51 @@ public class RestValidator {
 	}
 	
 	private void validateUniformInterface(ResourceNode resourceNode) {
+		validateOptions(resourceNode);
+		validateHeaders(resourceNode);
+		if (isValid) resourceNode.addNonViolationMessages("Uniform Interface constraint", "ok");
+	}
+
+	private void validateHeaders(ResourceNode resourceNode) {
+		switch (resourceNode.getCurrentResource().getResponseCode()) {
+		case 204:
+			if (resourceNode.getCurrentResource().getResponseBody() != null) {
+				isValid = false;
+				resourceNode.addViolationMessage("Uniform Interface constraint violation", "204 response must not include message-body");
+			}
+		case 205:
+			//TODO handle properly
+			if (resourceNode.getCurrentResource().getResponseBody() != null) {
+				isValid = false;
+				resourceNode.addViolationMessage("Uniform Interface constraint violation", "205 response must not include an entity");
+			}
+		case 206:
+			//TODO handle properly
+			
+		case 304:
+			//TODO handle properly
+		
+		case 401:
+			//TODO handle properly
+			
+		case 405:
+			//TODO handle properly
+			
+		case 416:
+			//TODO handle properly
+		}
+	}
+
+	/**
+	 * @param resourceNode
+	 */
+	private void validateOptions(ResourceNode resourceNode) {
 		if (resourceNode.getCurrentResourceOptions() != null) 
 			for (Header header : resourceNode.getCurrentResourceOptions().getResponseHeaders()) {
 				if (header.getHeaderKey() != null)
-					if (header.getHeaderKey().equals("Allow")) return;
+					if (header.getHeaderKey().equals("Allow")) {
+						return;
+					}
 		}
 		isValid = false;
 		resourceNode.addViolationMessage("Uniform Interface constraint violation", "OPTIONS method doesn't giving acceptable verbs list.");
