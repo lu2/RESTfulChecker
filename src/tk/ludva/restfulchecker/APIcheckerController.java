@@ -47,7 +47,7 @@ public class APIcheckerController {
 				RestValidator restValidator = new RestValidator(currentResourceNode);
 				String validation;
 				if (restValidator.validateApi()) validation = "<h3>Your API is not RESTful.</h3>";
-				else validation = "<h3>Your API is not RESTful.</h3>";
+				else validation = "<h3>Your API is not RESTful - see red text below to know why.</h3>";
 				String message = validation + "the tree of API is: <ul>"+currentResourceNode.toString()+"</ul>";
 				message = message.replace("<ul>[<li>", "<ul><li>");
 				message = message.replace("<ul>null</ul>", "");

@@ -27,3 +27,13 @@ textarea {
 	background-color: white;
 	visibility: hidden;
 }
+
+.violationMessage {
+	color: red;
+	font-style: italic;
+}
+
+.nonViolationMessage {
+	color: green;
+	font-style: italic;
+}

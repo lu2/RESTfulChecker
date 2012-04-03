@@ -12,6 +12,7 @@ public class ResourceNode {
 	private RemoteResource currentResourceOptions;
 	private List<ResourceNode> descendants;
 	private Map<String, ViolationMessagesHolder> violationMessages;
+	private Map<String, ViolationMessagesHolder> nonViolationMessages;
 	
 	public ResourceNode() {
 	}
@@ -61,10 +62,30 @@ public class ResourceNode {
 			getViolationMessages().put(key, new ViolationMessagesHolder(key, message));
 		}
 	}
+	
+	public Map<String, ViolationMessagesHolder> getNonViolationMessages() {
+		if (nonViolationMessages == null) nonViolationMessages = new HashMap<String, ViolationMessagesHolder>();
+		return nonViolationMessages;
+	}
+
+	public void setNonViolationMessages(Map<String, ViolationMessagesHolder> nonViolationMessages) {
+		this.nonViolationMessages = nonViolationMessages;
+	}
+	
+	public void addNonViolationMessages(String key, String message) {
+		if (getNonViolationMessages().containsKey(key)) {
+			getNonViolationMessages().get(key).addMessage(message);
+		} else {
+			getNonViolationMessages().put(key, new ViolationMessagesHolder(key, message));
+		}
+	}
 
 	public String toStringResponse() {
 		StringBuilder htmlOutput = new StringBuilder();
-		htmlOutput.append(violationMessages.values().toString());
+		htmlOutput.append("<div>");
+		htmlOutput.append("<span class=\"violationMessage\">"+violationMessages.values().toString()+"</span>");
+		htmlOutput.append("<span class=\"nonViolationMessage\">"+nonViolationMessages.values().toString()+"</span>");
+		htmlOutput.append("</div>");
 		htmlOutput.append("<div class=\"requestResponse\" id=\""+currentResource.getUrl()+"\">");
 		htmlOutput.append("<p>"+currentResource.getResponseCode()+" "+currentResource.getResponseMessage()+"</p>");
 		htmlOutput.append("<table class=\"responseHeaders\">");
