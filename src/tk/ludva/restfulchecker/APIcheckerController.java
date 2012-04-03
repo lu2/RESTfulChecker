@@ -30,6 +30,9 @@ public class APIcheckerController {
 	
 	@RequestMapping(value="/", method=RequestMethod.POST)
 	public String doCheckAPI(ApiEntry apiEntry){
+		//TODO Check visitedUrls and toVisit for multithreading!!!
+		visitedUrls = new HashMap<String, ResourceNode>();
+		toVisit = new LinkedList<ResourceNode>();
 		apiEntry.sendRequest();
 		switch (apiEntry.getResponseCode()) {
 		case 401: 
@@ -61,6 +64,7 @@ public class APIcheckerController {
 			}
 			if (apiEntry.getRequestHeaders() != null) apiEntry.setShowLevel(1);
 		}
+		
 		return "checkapi";
 	}
 	
