@@ -53,18 +53,7 @@
 		<extension>less</extension>
 		<mime-type>text/css</mime-type>
 	</mime-mapping>
-	
-  	<servlet>
-	    <servlet-name>via</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-  	</servlet>
- 
-  	<servlet-mapping>
-    	<servlet-name>via</servlet-name>
-    	<url-pattern>/via/*</url-pattern>
-  	</servlet-mapping>
-  	
+
   	<servlet>
 	    <servlet-name>apichecker</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
