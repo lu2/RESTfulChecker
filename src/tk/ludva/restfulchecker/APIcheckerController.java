@@ -127,44 +127,6 @@ public class APIcheckerController {
 		visitedUrls.put(currentResourceNode.getCurrentResource().getUrl(), currentResourceNode);
 	}
 	
-	/* Wrong idea to do it by dfs */
-	private void getResourcesDFS(ResourceNode currentResourceNode) {
-		LinkExtrator links = new LinkExtrator();
-		Set<String> urls = UrlWorker.getUrls(currentResourceNode.getCurrentResource().getUrl(), links.grabHTMLLinks(currentResourceNode.getCurrentResource().getResponseBody()));
-		if (urls.size( ) > 0) {
-			List<ResourceNode> descendats = new ArrayList<ResourceNode>();
-			RemoteResource nextResource;
-			for (String url : urls) {
-				if (visitedUrls.containsKey(url)) {
-					descendats.add(visitedUrls.get(url));
-					break;
-				}
-				try {
-					nextResource = (RemoteResource) currentResourceNode.getCurrentResource().clone();
-					nextResource.setUrl(url);
-					System.out.println("Doing "+nextResource.getUrl()+" rom resource "+currentResourceNode.getCurrentResource().getUrl());
-					nextResource.sendRequest();
-					if (nextResource.getResponseBody() == null) {
-						//Response without body - nonsense to parse it
-						// TODO probably error in remote api - log it somehow
-						System.out.println(currentResourceNode.getCurrentResource().getResponseBody());
-						System.out.println("a \n"+nextResource.getResponseBody());
-					} else {
-						ResourceNode nextResourceNode = new ResourceNode(nextResource);
-						getResources(nextResourceNode);
-						descendats.add(nextResourceNode);
-						visitedUrls.put(url, nextResourceNode);
-					}
-				} catch (CloneNotSupportedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		} else {
-			currentResourceNode.setDescendants(null);
-		}
-	}
-	
 	@RequestMapping(value="/client.html", method=RequestMethod.GET)
 	public String showClient(RemoteResource remoteResource){
 		return "client";
