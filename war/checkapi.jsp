@@ -29,25 +29,11 @@ function toggleVisibility(item) {
     <form:form commandName="apiEntry" >
       <table>
         <tr>
-          <c:if test="${apiEntry.showLevel>1 }">
-          <td>
-            <form:select path="method">
-              <form:option value="OPTIONS"/>
-              <form:option value="GET"/>
-              <form:option value="HEAD"/>
-              <form:option value="POST"/>
-              <form:option value="PUT"/>
-              <form:option value="DELETE"/>
-              <form:option value="CONNECT"/>
-            </form:select>
-          </td>
-          </c:if>
           <td>Insert API entry URL:</td>
           <td><form:input path="url" /> </td>
           <td><input type="submit" value="check this" /></td>
         </tr>
       </table>
-      <c:if test="${apiEntry.showLevel>0}">
       <input type="button" onclick="displayAddHeader();" value="Add header"/>
       <table id="headersTable">
       <c:set var="lastHeaderIndex" value="-1"/>
@@ -60,11 +46,20 @@ function toggleVisibility(item) {
         <c:set var="lastHeaderIndex" value="${status.index}"/>
       </c:forEach>
       </table>
-      </c:if>
-      <c:if test="${apiEntry.showLevel>1 }">
-      <h2>Body:</h2>
-      <form:checkbox path="useRequestBody" /> <form:textarea path="requestBody" />
-      </c:if>
+      <table>
+      <tr>
+      	<td><form:label path="maxSiblings">max siblings:</form:label></td>
+      	<td><form:input path="maxSiblings"/></td>
+      </tr>
+      <tr>
+      	<td><form:label path="maxDescendats">max descendants:</form:label></td>
+      	<td><form:input path="maxDescendats"/></td>
+      </tr>
+      <tr>
+      	<td><form:label path="baseUrl">base Url:</form:label></td>
+      	<td><form:input path="baseUrl"/></td>
+      </tr>
+      </table>
     </form:form>
     
   </body>
