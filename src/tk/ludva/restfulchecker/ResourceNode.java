@@ -132,6 +132,20 @@ public class ResourceNode {
 		return "<li>" + toStringDetail() + " "  + currentResource.getUrl() + " " + toStringResponse() + " "
 				+ "<ul>" + descendants + "</ul></li>";
 	}
+
+	public void sendOptions() {
+		try {
+			currentResourceOptions = (RemoteResource) currentResource.clone();
+		} catch (CloneNotSupportedException e) {
+			currentResourceOptions = null;
+		}
+		currentResourceOptions.setMethod("OPTIONS");
+		currentResourceOptions.sendRequest();
+	}
+
+	public void sendRequest() {
+		currentResource.sendRequest();
+	}
 	
 	
 	

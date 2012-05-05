@@ -25,6 +25,7 @@ public class RemoteResource implements Cloneable {
 	private String responseMessage;
 
 	public RemoteResource() {
+//		requestHeaders.add(new Header("Accept", "*/*", true));
 	}
 	
 	public void sendRequest() {

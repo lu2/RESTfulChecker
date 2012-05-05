@@ -7,12 +7,14 @@ public class ApiEntry extends RemoteResource {
 	private int maxSiblings;
 	private int maxDescendats;
 	private String baseUrl;
+	private int maxSize;
 	
 	public ApiEntry() {
 		super();
 		setMethod("GET");
 		maxSiblings = 10;
 		maxDescendats = 3;
+		maxSize = 128;
 	}
 
 	public int getShowLevel() {
@@ -62,5 +64,14 @@ public class ApiEntry extends RemoteResource {
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
 	}
+
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+	public void setMaxSize(int maxSize) {
+		this.maxSize = maxSize;
+	}
+
 	
 }
