@@ -35,6 +35,7 @@ public class APIcheckerController {
 		if (HttpValidator.responseOk(apiEntry))
 		{
 			validateTree(apiEntry);
+			generateViewOfTree(apiEntry);
 			return JSPOkResponse;
 		}
 		else
@@ -43,11 +44,9 @@ public class APIcheckerController {
 		}
 	}
 
-	private void validateTree(ApiEntry apiEntry) {
-		RestValidator restValidator = new RestValidator(apiEntry.getResourceNodes());
-		String validation;
-		if (restValidator.validateApi()) validation = "<h3>Your API is not RESTful.</h3>";
-		else validation = "<h3>Your API is not RESTful - see red text below to know why.</h3>";
+	private void generateViewOfTree(ApiEntry apiEntry)
+	{
+		String validation = apiEntry.getMessage();
 		String message = validation + "the tree of API is: <ul>"+apiEntry.getResourceNodes().toString()+"</ul>";
 		message = message.replace("<ul>[<li>", "<ul><li>");
 		message = message.replace("<ul>null</ul>", "");
@@ -56,6 +55,14 @@ public class APIcheckerController {
 		message = message.replace("</li>]</ul>", "</li></ul>");
 		message = message.replace("</li>]<li>", "</li><li>");
 		apiEntry.setMessage(message);
+	}
+
+	private void validateTree(ApiEntry apiEntry) {
+		RestValidator restValidator = new RestValidator(apiEntry.getResourceNodes());
+		String validation;
+		if (restValidator.validateApi()) validation = "<h3>Your API is not RESTful.</h3>";
+		else validation = "<h3>Your API is not RESTful - see red marks below to know why.</h3>";
+		apiEntry.setMessage(validation);
 	}
 
 	private void createTree(ApiEntry apiEntry) 
