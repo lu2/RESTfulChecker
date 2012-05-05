@@ -14,7 +14,7 @@ function displayAddHeader() {
   var rows = headersTable.getElementsByTagName("tr");
   var nextHeaderIndex = (rows.length);
   var y = document.createElement('tr');
-  y.innerHTML = '<td><input id="requestHeaders.inUse'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].inUse" type="checkbox" checked="yes"/></td><td class="headerField"><input id="requestHeaders.headerKey'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerKey" type="text"/></td><td class="headerField"><input id="requestHeaders.headerValue'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerValue" type="text"/></td>'
+  y.innerHTML = '<td><input id="requestHeaders.inUse'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].inUse" type="checkbox" checked="yes"/></td><td class="headerField"><input id="requestHeaders.headerKey'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerKey" type="text"/></td><td class="headerField">:</td><td class="headerField"><input id="requestHeaders.headerValue'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerValue" type="text"/></td>';
   headersTable.appendChild(y);
 }
 function toggleVisibility(item) {
@@ -41,6 +41,7 @@ function toggleVisibility(item) {
         <tr>
           <td><form:checkbox path="requestHeaders[${status.index}].inUse" /> </td>
           <td class="headerField"><form:input path="requestHeaders[${status.index}].headerKey" /></td>
+          <td>:</td>
           <td class="headerField"><form:input path="requestHeaders[${status.index}].headerValue" /></td>
         </tr>
         <c:set var="lastHeaderIndex" value="${status.index}"/>

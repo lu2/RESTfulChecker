@@ -87,13 +87,31 @@ public class ResourceNode {
 //		htmlOutput.append("<span class=\"nonViolationMessage\">"+nonViolationMessages.values().toString()+"</span>");
 //		htmlOutput.append("</div>");
 		htmlOutput.append("<div class=\"requestResponse\" id=\""+currentResource.getUrl()+"\">");
-		htmlOutput.append("<p>"+currentResource.getResponseCode()+" "+currentResource.getResponseMessage()+"</p>");
+		String resp = null;
+		for (Header responseHeader : currentResource.getResponseHeaders()) 
+		{
+			if (responseHeader.getHeaderKey() == null)
+			{
+				resp = responseHeader.getHeaderValue();
+				break;
+			}
+		}
+		if (resp == null)
+		{
+			resp = currentResource.getResponseCode()+" "+currentResource.getResponseMessage();
+		}
+		htmlOutput.append("<h3>HTTP Response for "+currentResource.getUrl()+"</h3>");
+		htmlOutput.append("<p>"+resp+"</p>");
 		htmlOutput.append("<table class=\"responseHeaders\">");
-		for (Header responseHeader : currentResource.getResponseHeaders()) {
+		for (Header responseHeader : currentResource.getResponseHeaders()) 
+		{
+			if (responseHeader.getHeaderKey() != null)
+			{
 			htmlOutput.append("<tr>");
 			htmlOutput.append("<td>"+responseHeader.getHeaderKey()+"</td>");
 			htmlOutput.append("<td>"+responseHeader.getHeaderValue()+"</td>");
 			htmlOutput.append("</tr>");
+			}
 		}
 		htmlOutput.append("</table>");
 		htmlOutput.append("<p><textarea>"+currentResource.getResponseBody()+"</textarea></p>");

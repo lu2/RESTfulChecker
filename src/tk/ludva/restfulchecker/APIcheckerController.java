@@ -93,8 +93,20 @@ public class APIcheckerController {
 		}
 		sb.append("<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"+resourceNode.getCurrentResource().getUrl()+"\')); return false\" >#</a> " );
 		sb.append(temp);
-		sb.append("</a>");
-
+		
+		if (resourceNode.getViolationMessages().size() > 0)
+		{
+			for ( String violationKey : resourceNode.getViolationMessages().keySet())
+			{
+				String messagesDisp = "";
+				for (String vilationMessages : resourceNode.getViolationMessages().get(violationKey).getMessages())
+				{
+					messagesDisp = messagesDisp + ", " + vilationMessages;
+				}
+				sb.append(" <img src=\"../redDot.gif\" alt=\"x\" title=\""+violationKey+": "+messagesDisp+"\" height=\"13\" width=\"13\" />");
+			}
+		}
+		
 		if (resourceNode.getDescendants().size() > 0)
 		{
 			sb.append("\n<ul>\n");
