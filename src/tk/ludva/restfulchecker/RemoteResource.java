@@ -33,7 +33,6 @@ public class RemoteResource implements Cloneable {
 		HttpURLConnection conn = null;
 		try {
 			URL remoteUrl = new URL(getUrl());
-//			System.out.println("Sending "+remoteUrl);
 			conn = (HttpURLConnection)remoteUrl.openConnection();
 			conn.setRequestMethod(getMethod());
 			for (Iterator<Header> iterator = getRequestHeaders().iterator(); iterator.hasNext();) {
@@ -57,6 +56,13 @@ public class RemoteResource implements Cloneable {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			while ((radek = reader.readLine()) != null) {
 				responseBody.append(radek);
+				int size = responseBody.length();
+				if (size > 256000)
+				{
+					//The resource is too big, cancel transmit and do not store.
+					responseBody = new StringBuilder("Content too big, ommiting this resource.");
+					break;
+				}
 			}
 			setResponseBody(responseBody.toString());
 		} catch (MalformedURLException e) {

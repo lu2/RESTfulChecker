@@ -32,7 +32,7 @@ public class APIcheckerController {
 	public String doCheckAPI(ApiEntry apiEntry)
 	{
 		createTree(apiEntry);
-		if (HttpValidator.responseOk(apiEntry))
+		if (HttpValidator.responseOk(apiEntry) && apiEntry.getResourceNodes().getDescendants().size() > 0)
 		{
 			validateTree(apiEntry);
 			generateViewOfTree(apiEntry);
@@ -45,6 +45,61 @@ public class APIcheckerController {
 	}
 
 	private void generateViewOfTree(ApiEntry apiEntry)
+	{
+		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
+		sb.append("This API structure was found: ");
+		sb.append("<ul>\n");
+		int index = 0;
+		writeResourceNodeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), apiEntry.getMaxSiblings(), index++, sb);
+		
+		sb.append("</ul>\n");
+		
+		apiEntry.setMessage(sb.toString());
+	}
+
+	private void writeResourceNodeView(ResourceNode resourceNode, String baseUrl, int maxSiblings, int index, StringBuilder sb)
+	{
+		String temp;
+		sb.append("<li>");
+		temp = resourceNode.getCurrentResource().getUrl().replaceFirst(baseUrl, "");
+		if (temp.length() == 0)
+		{
+			temp = "/";
+		}
+		sb.append("<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'http"+index+"\')); return false\" >");
+		sb.append(temp);
+		sb.append("</a>");
+
+		if (resourceNode.getDescendants().size() > 0)
+		{
+			sb.append("<ul>\n");
+			try 
+			{
+			for (ResourceNode rs : resourceNode.getDescendants().subList(0, maxSiblings))
+			{
+				writeResourceNodeView(rs, baseUrl, maxSiblings, index++, sb);
+			}
+			int overSize = resourceNode.getDescendants().size()-maxSiblings;
+			if (overSize > 0)
+			{
+				sb.append("<li>...and "+overSize+" more.</li>");
+			}
+			}
+			catch(java.lang.IndexOutOfBoundsException e)
+			{
+				for (ResourceNode rs : resourceNode.getDescendants())
+				{
+					writeResourceNodeView(rs, baseUrl, maxSiblings, index++, sb);
+				}
+			}
+			sb.append("</ul>\n");
+		}
+		
+		sb.append("</li>");
+		sb.append("\n");
+	}
+	
+	private void generateViewOfTreeDeprecated(ApiEntry apiEntry)
 	{
 		String validation = apiEntry.getMessage();
 		String message = validation + "the tree of API is: <ul>"+apiEntry.getResourceNodes().toString()+"</ul>";
@@ -112,7 +167,17 @@ public class APIcheckerController {
 				try
 				{
 					nextResource = (RemoteResource) currentResourceNode.getCurrentResource().clone();
-					nextResource.setUrl(url);
+					if (currentResourceNode.getCurrentResource().getUrl().contains("?") && !url.contains("?"))
+					{
+						String append = currentResourceNode.getCurrentResource().getUrl();
+						append = currentResourceNode.getCurrentResource().getUrl().substring(
+								currentResourceNode.getCurrentResource().getUrl().lastIndexOf('?'));
+						nextResource.setUrl(url+append);
+					}
+					else
+					{
+						nextResource.setUrl(url);
+					}
 					ResourceNode nextResourceNode = new ResourceNode(nextResource);
 					currentResourceNode.getDescendants().add(nextResourceNode);
 					if (--maxResourcesToLoad < 0)
