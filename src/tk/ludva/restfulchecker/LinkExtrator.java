@@ -1,6 +1,8 @@
 package tk.ludva.restfulchecker;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,33 +27,52 @@ public class LinkExtrator {
 		patternLinkHttps = Pattern.compile(HTTPS_PATTERN);
 	}
 
-	public Set<String> grabHTMLLinks(final String html) {
+	public List<String> grabHTMLLinks(final String html) {
 		matcherLink = patternLink.matcher(html);
-		Set<String> linksOut = new HashSet<String>();
+		List<String> linksOut = new ArrayList<String>();
+		Set<String> alreadyFoundedUrls = new HashSet<String>();
 		while (matcherLink.find()) {
 			String link = matcherLink.group(1); // link
+			if (link != null)
+			{
 			if (link.startsWith("'") && link.endsWith("'"))
 			{
-				linksOut.add(link.substring(1, link.length()-1));
+				if (!alreadyFoundedUrls.contains(link.substring(1, link.length()-1)))
+				{
+					linksOut.add(link.substring(1, link.length()-1));
+					alreadyFoundedUrls.add(link.substring(1, link.length()-1));
+				}
 			}
 			else
 			{
-				linksOut.add(link);
+				if (!alreadyFoundedUrls.contains(link))
+				{
+					linksOut.add(link);
+					alreadyFoundedUrls.add(link);
+				}
+			}
 			}
 		}
 		
 		matcherLink = patternLinkHttp.matcher(html);
 		while (matcherLink.find()) {
 			String link = matcherLink.group(); // link
-			linksOut.add(link);
+			if (!alreadyFoundedUrls.contains(link))
+			{
+				linksOut.add(link);
+				alreadyFoundedUrls.add(link);
+			}
 		}
 		
 		matcherLink = patternLinkHttps.matcher(html);
 		while (matcherLink.find()) {
 			String link = matcherLink.group(); // link
-			linksOut.add(link);
+			if (!alreadyFoundedUrls.contains(link))
+			{
+				linksOut.add(link);
+				alreadyFoundedUrls.add(link);
+			}
 		}
-		
 		return linksOut;
 	}
 }

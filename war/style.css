@@ -5,12 +5,17 @@ th {
 }
 
 textarea {
-	width: 444px;
-	height: 155px;
+	width: 96%;
+	height: 200px;
 }
 
 #url {
 	width: 333px;
+}
+
+#resourceView {
+	float: right;
+	width: 600px;
 }
 
 .headerField input {
@@ -26,6 +31,7 @@ textarea {
 	border: 1px solid black;
 	background-color: white;
 	visibility: hidden;
+	width: 590px;
 }
 
 .violationMessage {

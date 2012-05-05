@@ -2,7 +2,9 @@ package tk.ludva.restfulchecker;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class UrlWorker {
@@ -36,10 +38,10 @@ public class UrlWorker {
 		return buildedUrl;
 	}
 
-	public static Set<String> getUrls(String currentUrlString,
-			Set<String> odkazy) {
+	public static List<String> getUrls(String currentUrlString,
+			List<String> odkazy) {
 		URL currentUrl;
-		Set<String> urls = new HashSet<String>();
+		List<String> urls = new ArrayList<String>();
 		try {
 			currentUrl = new URL(currentUrlString);
 		} catch (MalformedURLException e) {

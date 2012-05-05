@@ -1,8 +1,10 @@
 package tk.ludva.restfulchecker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -35,6 +37,7 @@ public class APIcheckerController {
 		if (HttpValidator.responseOk(apiEntry) && apiEntry.getResourceNodes().getDescendants().size() > 0)
 		{
 			validateTree(apiEntry);
+			generateViewOfResources(apiEntry);
 			generateViewOfTree(apiEntry);
 			return JSPOkResponse;
 		}
@@ -44,20 +47,42 @@ public class APIcheckerController {
 		}
 	}
 
+	private void generateViewOfResources(ApiEntry apiEntry)
+	{
+		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
+		sb.append("<div id=\"resourceView\">");
+		writeResourceNodeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), sb);
+		
+		sb.append("</div>\n");
+		
+		apiEntry.setMessage(sb.toString());
+	}
+
+	private void writeResourceNodeView(ResourceNode resourceNode, String baseUrl, StringBuilder sb)
+	{
+		if (resourceNode.getCurrentResource().getResponseCode() != 0)
+		{
+			sb.append(resourceNode.toStringResponse());
+		}
+		for (ResourceNode rs : resourceNode.getDescendants())
+		{
+			writeResourceNodeView(rs, baseUrl, sb);
+		}
+	}
+
 	private void generateViewOfTree(ApiEntry apiEntry)
 	{
 		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
 		sb.append("This API structure was found: ");
 		sb.append("<ul>\n");
-		int index = 0;
-		writeResourceNodeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), apiEntry.getMaxSiblings(), index++, sb);
+		writeResourceNodeTreeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), apiEntry.getMaxSiblings(), sb);
 		
 		sb.append("</ul>\n");
 		
 		apiEntry.setMessage(sb.toString());
 	}
 
-	private void writeResourceNodeView(ResourceNode resourceNode, String baseUrl, int maxSiblings, int index, StringBuilder sb)
+	private void writeResourceNodeTreeView(ResourceNode resourceNode, String baseUrl, int maxSiblings, StringBuilder sb)
 	{
 		String temp;
 		sb.append("<li>");
@@ -66,18 +91,18 @@ public class APIcheckerController {
 		{
 			temp = "/";
 		}
-		sb.append("<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'http"+index+"\')); return false\" >");
+		sb.append("<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"+resourceNode.getCurrentResource().getUrl()+"\')); return false\" >#</a> " );
 		sb.append(temp);
 		sb.append("</a>");
 
 		if (resourceNode.getDescendants().size() > 0)
 		{
-			sb.append("<ul>\n");
+			sb.append("\n<ul>\n");
 			try 
 			{
 			for (ResourceNode rs : resourceNode.getDescendants().subList(0, maxSiblings))
 			{
-				writeResourceNodeView(rs, baseUrl, maxSiblings, index++, sb);
+				writeResourceNodeTreeView(rs, baseUrl, maxSiblings, sb);
 			}
 			int overSize = resourceNode.getDescendants().size()-maxSiblings;
 			if (overSize > 0)
@@ -89,7 +114,7 @@ public class APIcheckerController {
 			{
 				for (ResourceNode rs : resourceNode.getDescendants())
 				{
-					writeResourceNodeView(rs, baseUrl, maxSiblings, index++, sb);
+					writeResourceNodeTreeView(rs, baseUrl, maxSiblings, sb);
 				}
 			}
 			sb.append("</ul>\n");
@@ -97,19 +122,6 @@ public class APIcheckerController {
 		
 		sb.append("</li>");
 		sb.append("\n");
-	}
-	
-	private void generateViewOfTreeDeprecated(ApiEntry apiEntry)
-	{
-		String validation = apiEntry.getMessage();
-		String message = validation + "the tree of API is: <ul>"+apiEntry.getResourceNodes().toString()+"</ul>";
-		message = message.replace("<ul>[<li>", "<ul><li>");
-		message = message.replace("<ul>null</ul>", "");
-		message = message.replace("<ul>[]</ul>", "");
-		message = message.replace("</li>, <li>", "</li><li>");
-		message = message.replace("</li>]</ul>", "</li></ul>");
-		message = message.replace("</li>]<li>", "</li><li>");
-		apiEntry.setMessage(message);
 	}
 
 	private void validateTree(ApiEntry apiEntry) {
@@ -148,9 +160,9 @@ public class APIcheckerController {
 		{
 			return;
 		}
-		Set<String> urls = UrlWorker.getUrls(currentResourceNode.getCurrentResource().getUrl(), 
+		List<String> urls = UrlWorker.getUrls(currentResourceNode.getCurrentResource().getUrl(), 
 				links.grabHTMLLinks(currentResourceNode.getCurrentResource().getResponseBody()));
-		Set<String> validUrls = new HashSet<String>();
+		List<String> validUrls = new ArrayList<String>();
 		for (String url : urls)
 		{
 			if (url.startsWith(apiEntry.getBaseUrl()))
@@ -167,7 +179,8 @@ public class APIcheckerController {
 				try
 				{
 					nextResource = (RemoteResource) currentResourceNode.getCurrentResource().clone();
-					if (currentResourceNode.getCurrentResource().getUrl().contains("?") && !url.contains("?"))
+					nextResource.deletePreviousResponse();
+					if (apiEntry.getUrl().contains("?") && !url.contains("?"))
 					{
 						String append = currentResourceNode.getCurrentResource().getUrl();
 						append = currentResourceNode.getCurrentResource().getUrl().substring(

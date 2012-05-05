@@ -77,7 +77,7 @@ public class RemoteResource implements Cloneable {
 		}
 	}
 
-	private void deletePreviousResponse() {
+	public void deletePreviousResponse() {
 		responseHeaders = new ArrayList<Header>();
 		responseBody = null;
 		responseCode = 0;

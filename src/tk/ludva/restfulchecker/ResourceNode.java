@@ -82,10 +82,10 @@ public class ResourceNode {
 
 	public String toStringResponse() {
 		StringBuilder htmlOutput = new StringBuilder();
-		htmlOutput.append("<div>");
-		htmlOutput.append("<span class=\"violationMessage\">"+violationMessages.values().toString()+"</span>");
-		htmlOutput.append("<span class=\"nonViolationMessage\">"+nonViolationMessages.values().toString()+"</span>");
-		htmlOutput.append("</div>");
+//		htmlOutput.append("<div>");
+//		htmlOutput.append("<span class=\"violationMessage\">"+violationMessages.values().toString()+"</span>");
+//		htmlOutput.append("<span class=\"nonViolationMessage\">"+nonViolationMessages.values().toString()+"</span>");
+//		htmlOutput.append("</div>");
 		htmlOutput.append("<div class=\"requestResponse\" id=\""+currentResource.getUrl()+"\">");
 		htmlOutput.append("<p>"+currentResource.getResponseCode()+" "+currentResource.getResponseMessage()+"</p>");
 		htmlOutput.append("<table class=\"responseHeaders\">");
@@ -112,7 +112,7 @@ public class ResourceNode {
 		}
 		htmlOutput.append("</table>");
 		htmlOutput.append("<p><textarea>"+currentResourceOptions.getResponseBody()+"</textarea></p>");
-		htmlOutput.append("</div>");
+		htmlOutput.append("</div>\n");
 		return htmlOutput.toString();
 	}
 	
