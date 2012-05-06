@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import tk.ludva.restfulchecker.model.ErrsAndWarns;
 import tk.ludva.restfulchecker.validators.HttpValidator;
 import tk.ludva.restfulchecker.validators.RestValidator;
 
@@ -46,6 +47,26 @@ public class APIcheckerController {
 		{
 			return JSPBadResponse;
 		}
+	}
+
+	private ErrsAndWarns countErrsAndWarns(ApiEntry apiEntry)
+	{
+		ErrsAndWarns errsAndWarns = new ErrsAndWarns();
+		countErrsAndWarns(apiEntry.getResourceNodes(), errsAndWarns);
+		
+		return errsAndWarns;
+	}
+	
+	private void countErrsAndWarns(ResourceNode rs, ErrsAndWarns eaw)
+	{
+		eaw.addErr(rs.getViolationMessages().size());
+		eaw.addWarn(rs.getNonViolationMessages().size());
+		
+		for (ResourceNode resourceNode : rs.getDescendants())
+		{
+			countErrsAndWarns(resourceNode, eaw);
+		}
+		
 	}
 
 	private void generateViewOfQuestionnaires(ApiEntry apiEntry)
@@ -179,7 +200,15 @@ public class APIcheckerController {
 		}
 		else 
 		{
-			validation = "<h3>Your API is not RESTful - see red marks below to know why.</h3>";
+			ErrsAndWarns errsAndWarns = countErrsAndWarns(apiEntry);
+			if (errsAndWarns.getErrorsCount() == 0)
+			{
+				validation = "<h3>Your API is RESTful, but found "+errsAndWarns.getWarnsCount()+" warnings - see yellow marks below for details.</h3>";
+			}
+			else
+			{
+				validation = "<h3>Your API is not RESTful, found "+errsAndWarns.getErrorsCount()+" errors and "+errsAndWarns.getWarnsCount()+" warnings - see colored marks below for details.</h3>";
+			}
 		}
 		apiEntry.setMessage(validation);
 	}
