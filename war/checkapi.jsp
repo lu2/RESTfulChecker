@@ -53,10 +53,6 @@ function toggleVisibility(item) {
       	<td><form:input path="maxSiblings"/></td>
       </tr>
       <tr>
-      	<td><form:label path="maxDescendats">max descendants:</form:label></td>
-      	<td><form:input path="maxDescendats"/></td>
-      </tr>
-      <tr>
       	<td><form:label path="baseUrl">base Url:</form:label></td>
       	<td><form:input path="baseUrl"/></td>
       </tr>

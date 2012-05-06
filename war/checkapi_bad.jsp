@@ -25,7 +25,7 @@ function toggleVisibility(item) {
   </head> 
   <body>
   <h1>RESTfulChecker</h1>
-  <p>${apiEntry.message}</p>
+  <h3>Problem: cannot communicate with API (perhaps wrong API entry request). Bellow is response from which you should obtain details about how to correct API entry point information.</h3>
     <form:form commandName="apiEntry" >
       <table>
         <tr>
@@ -53,12 +53,35 @@ function toggleVisibility(item) {
       	<td><form:input path="maxSiblings"/></td>
       </tr>
       <tr>
-      	<td><form:label path="maxDescendats">max descendants:</form:label></td>
-      	<td><form:input path="maxDescendats"/></td>
-      </tr>
-      <tr>
       	<td><form:label path="baseUrl">base Url:</form:label></td>
       	<td><form:input path="baseUrl"/></td>
+      </tr>
+      </table>
+      
+      <table id="questionnairesTable" style="display: none">
+      <tr>
+      <td><form:label path="questionnaires.Q1a">${apiEntry.questionnaires.q1}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q1a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q2a">${apiEntry.questionnaires.q2}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q2a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q3a">${apiEntry.questionnaires.q3}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q3a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q11a">${apiEntry.questionnaires.q11}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q11a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q12a">${apiEntry.questionnaires.q12}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q12a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q13a">${apiEntry.questionnaires.q13}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q13a" /></td>
       </tr>
       </table>
     </form:form>

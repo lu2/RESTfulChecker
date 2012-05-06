@@ -5,19 +5,14 @@ public class ApiEntry extends RemoteResource {
 	private String message;
 	private ResourceNode resourceNodes;
 	private int maxSiblings;
-	private int maxDescendats;
 	private String baseUrl;
-	private int maxSize;
 	private int valid;
 	private Questionnaires questionnaires;
-	private boolean xmlOutput;
 	
 	public ApiEntry() {
 		super();
 		setMethod("GET");
 		maxSiblings = 10;
-		maxDescendats = 3;
-		maxSize = 128;
 		valid = 0;
 		questionnaires = new Questionnaires();
 	}
@@ -54,28 +49,12 @@ public class ApiEntry extends RemoteResource {
 		this.maxSiblings = maxSiblings;
 	}
 
-	public int getMaxDescendats() {
-		return maxDescendats;
-	}
-
-	public void setMaxDescendats(int maxDescendats) {
-		this.maxDescendats = maxDescendats;
-	}
-
 	public String getBaseUrl() {
 		return baseUrl;
 	}
 
 	public void setBaseUrl(String baseUrl) {
 		this.baseUrl = baseUrl;
-	}
-
-	public int getMaxSize() {
-		return maxSize;
-	}
-
-	public void setMaxSize(int maxSize) {
-		this.maxSize = maxSize;
 	}
 
 	public int getValid()
