@@ -164,6 +164,73 @@ public class ResourceNode {
 	public void sendRequest() {
 		currentResource.sendRequest();
 	}
+
+	public String toStringResponseXML()
+	{
+		StringBuilder htmlOutput = new StringBuilder();
+		htmlOutput.append("<HTTP_response>");
+		String resp = null;
+		for (Header responseHeader : currentResource.getResponseHeaders()) 
+		{
+			if (responseHeader.getHeaderKey() == null)
+			{
+				resp = responseHeader.getHeaderValue();
+				break;
+			}
+		}
+		if (resp == null)
+		{
+			resp = currentResource.getResponseCode()+" "+currentResource.getResponseMessage();
+		}
+		htmlOutput.append("<message>"+resp+"</message>");
+		htmlOutput.append("<headers>");
+		for (Header responseHeader : currentResource.getResponseHeaders()) 
+		{
+			if (responseHeader.getHeaderKey() != null)
+			{
+			htmlOutput.append("<header>");
+			htmlOutput.append("<key>"+responseHeader.getHeaderKey()+"</key>");
+			htmlOutput.append("<value>"+responseHeader.getHeaderValue()+"</value>");
+			htmlOutput.append("</header>");
+			}
+		}
+		htmlOutput.append("</headers>");
+		htmlOutput.append("</HTTP_response>");
+		if (currentResourceOptions == null) {
+			return htmlOutput.toString();
+		}
+		
+		htmlOutput.append("<HTTP_OPTIONS_response>");
+		resp = null;
+		for (Header responseHeader : currentResourceOptions.getResponseHeaders()) 
+		{
+			if (responseHeader.getHeaderKey() == null)
+			{
+				resp = responseHeader.getHeaderValue();
+				break;
+			}
+		}
+		if (resp == null)
+		{
+			resp = currentResourceOptions.getResponseCode()+" "+currentResourceOptions.getResponseMessage();
+		}
+		htmlOutput.append("<message>"+resp+"</message>");
+		htmlOutput.append("<headers>");
+		for (Header responseHeader : currentResourceOptions.getResponseHeaders()) 
+		{
+			if (responseHeader.getHeaderKey() != null)
+			{
+			htmlOutput.append("<header>");
+			htmlOutput.append("<key>"+responseHeader.getHeaderKey()+"</key>");
+			htmlOutput.append("<value>"+responseHeader.getHeaderValue()+"</value>");
+			htmlOutput.append("</header>");
+			}
+		}
+		htmlOutput.append("</headers>");
+		htmlOutput.append("</HTTP_OPTIONS_response>");
+		
+		return htmlOutput.toString();
+	}
 	
 	
 	

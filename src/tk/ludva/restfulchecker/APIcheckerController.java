@@ -10,6 +10,10 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +35,11 @@ public class APIcheckerController {
 		return "checkapi";
 	}
 	
+	@RequestMapping(value="/repeatedtesting", method=RequestMethod.GET)
+	public String showCheckAPIRepeatedTesting(ApiEntry remoteResource){
+		return "checkapirepeatedtesting";
+	}
+	
 	@RequestMapping(value="/", method=RequestMethod.POST)
 	public String doCheckAPI(ApiEntry apiEntry)
 	{
@@ -47,6 +56,62 @@ public class APIcheckerController {
 		{
 			return JSPBadResponse;
 		}
+	}
+	
+	@RequestMapping(value="/repeatedtesting", method=RequestMethod.POST)
+	public ResponseEntity<String> doCheckAPIRepeatedTesting(ApiEntry apiEntry)
+	{
+		createTree(apiEntry);
+		apiEntry.setMessage("<RESTfulChecker_report>");
+		generateViewOfEntryPointXML(apiEntry);
+			validateTreeXML(apiEntry);
+			generateViewOfTreeXML(apiEntry);
+			HttpHeaders responseHeaders = new HttpHeaders();
+		    responseHeaders.setContentType(MediaType.TEXT_XML);
+		    apiEntry.setMessage(apiEntry.getMessage()+"</RESTfulChecker_report>");
+		    return new ResponseEntity<String>(apiEntry.getMessage(), responseHeaders, HttpStatus.CREATED);
+	}
+
+	private void generateViewOfEntryPointXML(ApiEntry apiEntry)
+	{
+		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
+		sb.append("<test_definition>");
+		
+		sb.append("<request>");
+		sb.append("<API_entry_URL>");
+		sb.append(apiEntry.getUrl());
+		sb.append("</API_entry_URL>");
+		if (apiEntry.getRequestHeaders().size() > 0)
+		{
+			sb.append("<headers>");
+			for (Header header : apiEntry.getRequestHeaders())
+			{
+				sb.append("<header>");
+				sb.append("<key>");
+				sb.append(header.getHeaderKey());
+				sb.append("</key>");
+				sb.append("<value>");
+				sb.append(header.getHeaderValue());
+				sb.append("</value>");
+				sb.append("</header>");
+			}
+			sb.append("</headers>");
+		}
+		
+		sb.append("</request>");
+		
+		sb.append("<limits>");
+		sb.append("<max_siblings>");
+		sb.append(apiEntry.getMaxSiblings());
+		sb.append("</max_siblings>");
+		sb.append("<base_url>");
+		sb.append(apiEntry.getBaseUrl());
+		sb.append("</base_url>");
+		sb.append("</limits>");
+		
+		sb.append("</test_definition>");
+		
+		apiEntry.setMessage(sb.toString());
 	}
 
 	private ErrsAndWarns countErrsAndWarns(ApiEntry apiEntry)
@@ -190,6 +255,98 @@ public class APIcheckerController {
 		sb.append("</li>");
 		sb.append("\n");
 	}
+	
+	private void generateViewOfTreeXML(ApiEntry apiEntry)
+	{
+		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
+		sb.append("<api_tree>\n");
+		writeResourceNodeTreeViewXML(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), apiEntry.getMaxSiblings(), sb);
+		
+		sb.append("</api_tree>\n");
+		
+		apiEntry.setMessage(sb.toString());
+	}
+
+	private void writeResourceNodeTreeViewXML(ResourceNode resourceNode, String baseUrl, int maxSiblings, StringBuilder sb)
+	{
+		sb.append("<resource id=\""+resourceNode.getCurrentResource().getUrl()+"\">");
+		sb.append("<url>");
+		sb.append(resourceNode.getCurrentResource().getUrl());
+		sb.append("</url>");
+		sb.append(resourceNode.toStringResponseXML());
+		
+		if (resourceNode.getViolationMessages().size() > 0)
+		{
+			sb.append("<errors>");
+			for ( String violationKey : resourceNode.getViolationMessages().keySet())
+			{
+				String messagesDisp = "";
+				for (String vilationMessages : resourceNode.getViolationMessages().get(violationKey).getMessages())
+				{
+					messagesDisp = messagesDisp + ", " + vilationMessages;
+				}
+				sb.append("<error>");
+				sb.append("<key>");
+				sb.append(violationKey);
+				sb.append("</key>");
+				sb.append("<value>");
+				sb.append(messagesDisp);
+				sb.append("</value>");
+				sb.append("</error>");
+			}
+			sb.append("</errors>");
+		}
+		
+		if (resourceNode.getNonViolationMessages().size() > 0)
+		{
+			sb.append("<warnings>");
+			for ( String violationKey : resourceNode.getNonViolationMessages().keySet())
+			{
+				String messagesDisp = "";
+				for (String vilationMessages : resourceNode.getNonViolationMessages().get(violationKey).getMessages())
+				{
+					messagesDisp = messagesDisp + ", " + vilationMessages;
+				}
+				sb.append("<warning>");
+				sb.append("<key>");
+				sb.append(violationKey);
+				sb.append("</key>");
+				sb.append("<value>");
+				sb.append(messagesDisp);
+				sb.append("</value>");
+				sb.append("</warning>");
+			}
+			sb.append("</warnings>");
+		}
+		
+		if (resourceNode.getDescendants().size() > 0)
+		{
+			sb.append("<resources>");
+			try 
+			{
+			for (ResourceNode rs : resourceNode.getDescendants().subList(0, maxSiblings))
+			{
+				writeResourceNodeTreeViewXML(rs, baseUrl, maxSiblings, sb);
+			}
+			int overSize = resourceNode.getDescendants().size()-maxSiblings;
+			if (overSize > 0)
+			{
+				sb.append("<resource><note>...and "+overSize+" more.</note></resource>");
+			}
+			}
+			catch(java.lang.IndexOutOfBoundsException e)
+			{
+				for (ResourceNode rs : resourceNode.getDescendants())
+				{
+					writeResourceNodeTreeViewXML(rs, baseUrl, maxSiblings, sb);
+				}
+			}
+			sb.append("</resources>");
+		}
+		
+		sb.append("</resource>");
+		sb.append("\n");
+	}
 
 	private void validateTree(ApiEntry apiEntry) {
 		RestValidator restValidator = new RestValidator(apiEntry.getResourceNodes());
@@ -211,6 +368,32 @@ public class APIcheckerController {
 			}
 		}
 		apiEntry.setMessage(validation);
+	}
+	
+	private void validateTreeXML(ApiEntry apiEntry) {
+		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
+		sb.append("<results_of_REST_checking>");
+		RestValidator restValidator = new RestValidator(apiEntry.getResourceNodes());
+		String validation;
+		if (restValidator.validateApi()) 
+		{
+			validation = "Your API is RESTful.";
+		}
+		else 
+		{
+			ErrsAndWarns errsAndWarns = countErrsAndWarns(apiEntry);
+			if (errsAndWarns.getErrorsCount() == 0)
+			{
+				validation = "Your API is RESTful, but found "+errsAndWarns.getWarnsCount()+" warnings - see details of each resource.";
+			}
+			else
+			{
+				validation = "Your API is not RESTful, found "+errsAndWarns.getErrorsCount()+" errors and "+errsAndWarns.getWarnsCount()+" warnings - see details of each resource.";
+			}
+		}
+		sb.append(validation);
+		sb.append("</results_of_REST_checking>");
+		apiEntry.setMessage(sb.toString());
 	}
 
 	private void createTree(ApiEntry apiEntry) 

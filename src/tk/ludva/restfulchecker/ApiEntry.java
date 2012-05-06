@@ -10,6 +10,7 @@ public class ApiEntry extends RemoteResource {
 	private int maxSize;
 	private int valid;
 	private Questionnaires questionnaires;
+	private boolean xmlOutput;
 	
 	public ApiEntry() {
 		super();
