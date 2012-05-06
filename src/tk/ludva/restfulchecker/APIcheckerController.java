@@ -139,8 +139,14 @@ public class APIcheckerController {
 	private void validateTree(ApiEntry apiEntry) {
 		RestValidator restValidator = new RestValidator(apiEntry.getResourceNodes());
 		String validation;
-		if (restValidator.validateApi()) validation = "<h3>Your API is not RESTful.</h3>";
-		else validation = "<h3>Your API is not RESTful - see red marks below to know why.</h3>";
+		if (restValidator.validateApi()) 
+		{
+			validation = "<h3>Your API is RESTful.</h3>";
+		}
+		else 
+		{
+			validation = "<h3>Your API is not RESTful - see red marks below to know why.</h3>";
+		}
 		apiEntry.setMessage(validation);
 	}
 
@@ -163,6 +169,10 @@ public class APIcheckerController {
 	{
 		if (discoveredResources.containsKey(currentResourceNode.getCurrentResource().getUrl()))
 		{
+			currentResourceNode.setCurrentResource((RemoteResource)discoveredResources.get(
+					currentResourceNode.getCurrentResource().getUrl()).getCurrentResource());
+			currentResourceNode.setCurrentResourceOptions((RemoteResource)discoveredResources.get(
+					currentResourceNode.getCurrentResource().getUrl()).getCurrentResourceOptions());
 			return;
 		}
 		currentResourceNode.sendOptions();

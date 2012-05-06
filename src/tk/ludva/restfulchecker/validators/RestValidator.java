@@ -18,6 +18,11 @@ public class RestValidator {
 	}
 	
 	private void validateResource(ResourceNode resourceNode) {
+		//Do not test this resource if it wasn't crawled.
+		if (resourceNode.getCurrentResource().getResponseCode() == 0)
+		{
+			return;
+		}
 		validateCacheConstraint(resourceNode);
 		validateUniformInterface(resourceNode);
 		for (ResourceNode nextResourceNode : resourceNode.getDescendants()) {
@@ -53,12 +58,14 @@ public class RestValidator {
 				isValid = false;
 				resourceNode.addViolationMessage("Uniform Interface constraint violation", "204 response must not include message-body");
 			}
+			break;
 		case 205:
 			//TODO handle properly
 			if (resourceNode.getCurrentResource().getResponseBody() != null) {
 				isValid = false;
 				resourceNode.addViolationMessage("Uniform Interface constraint violation", "205 response must not include an entity");
 			}
+			break;
 		case 206:
 			//TODO handle properly
 			
