@@ -37,6 +37,7 @@ public class APIcheckerController {
 		if (HttpValidator.responseOk(apiEntry) && apiEntry.getResourceNodes().getDescendants().size() > 0)
 		{
 			validateTree(apiEntry);
+			generateViewOfQuestionnaires(apiEntry);
 			generateViewOfResources(apiEntry);
 			generateViewOfTree(apiEntry);
 			return JSPOkResponse;
@@ -45,6 +46,26 @@ public class APIcheckerController {
 		{
 			return JSPBadResponse;
 		}
+	}
+
+	private void generateViewOfQuestionnaires(ApiEntry apiEntry)
+	{
+		String evaluation = apiEntry.getQuestionnaires().evaluate();
+		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
+		sb.append("<div id=\"questionnairesEvaluation\">");
+		sb.append("From answers in questionnaire, we can determine if your API comply with following two REST constraints: ");
+		sb.append("<ul><li>client-server,</li><li>stateless.</li></ul>\n");
+		if (evaluation.equals(""))
+		{
+			sb.append("Your answers indicates, that both of these constraints are met.");
+		}
+		else
+		{
+			sb.append("Your answers indicates that these constraints are not met because:\n");
+			sb.append(evaluation);
+		}
+		sb.append("</div>\n");
+		apiEntry.setMessage(sb.toString());
 	}
 
 	private void generateViewOfResources(ApiEntry apiEntry)

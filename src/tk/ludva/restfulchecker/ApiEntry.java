@@ -9,6 +9,7 @@ public class ApiEntry extends RemoteResource {
 	private String baseUrl;
 	private int maxSize;
 	private int valid;
+	private Questionnaires questionnaires;
 	
 	public ApiEntry() {
 		super();
@@ -17,6 +18,7 @@ public class ApiEntry extends RemoteResource {
 		maxDescendats = 3;
 		maxSize = 128;
 		valid = 0;
+		questionnaires = new Questionnaires();
 	}
 
 	public int getShowLevel() {
@@ -83,6 +85,11 @@ public class ApiEntry extends RemoteResource {
 	public void setValid(int valid)
 	{
 		this.valid = valid;
+	}
+
+	public Questionnaires getQuestionnaires()
+	{
+		return questionnaires;
 	}
 	
 }

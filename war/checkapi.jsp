@@ -61,6 +61,34 @@ function toggleVisibility(item) {
       	<td><form:input path="baseUrl"/></td>
       </tr>
       </table>
+      
+      <table id="questionnairesTable">
+      <tr>
+      <td><form:label path="questionnaires.Q1a">${apiEntry.questionnaires.q1}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q1a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q2a">${apiEntry.questionnaires.q2}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q2a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q3a">${apiEntry.questionnaires.q3}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q3a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q11a">${apiEntry.questionnaires.q11}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q11a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q12a">${apiEntry.questionnaires.q12}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q12a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.Q13a">${apiEntry.questionnaires.q13}</form:label></td>
+      <td><form:checkbox path="questionnaires.Q13a" /></td>
+      </tr>
+      </table>
+      
     </form:form>
     
   </body>
