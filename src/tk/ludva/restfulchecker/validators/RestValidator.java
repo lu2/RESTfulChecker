@@ -31,13 +31,12 @@ public class RestValidator {
 	}
 	
 	private void  validateCacheConstraint(ResourceNode resourceNode) {
-		//TODO proper cache headers checkinkg
 		for (Header header : resourceNode.getCurrentResource().getResponseHeaders()) {
 			if (header.getHeaderKey() != null)
 			if (header.getHeaderKey().equals("Cache-Control") 
 					| header.getHeaderKey().equals("Expires")
 					| header.getHeaderKey().equals("Last-Modified")) {
-				resourceNode.addNonViolationMessages("Cache constraint", "ok");
+//				resourceNode.addNonViolationMessages("Cache constraint", "ok");
 				return;
 			}
 		}
@@ -48,7 +47,7 @@ public class RestValidator {
 	private void validateUniformInterface(ResourceNode resourceNode) {
 		validateOptions(resourceNode);
 		validateHeaders(resourceNode);
-		if (isValid) resourceNode.addNonViolationMessages("Uniform Interface constraint", "ok");
+//		if (isValid) resourceNode.addNonViolationMessages("Uniform Interface constraint", "ok");
 	}
 
 	private void validateHeaders(ResourceNode resourceNode) {
@@ -95,6 +94,6 @@ public class RestValidator {
 					}
 		}
 		isValid = false;
-		resourceNode.addViolationMessage("Uniform Interface constraint violation", "OPTIONS method doesn't giving acceptable verbs list.");
+		resourceNode.addNonViolationMessage("Uniform Interface constraint warning", "OPTIONS method doesn't giving acceptable verbs list.");
 	}
 }

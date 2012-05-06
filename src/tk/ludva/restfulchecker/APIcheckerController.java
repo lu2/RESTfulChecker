@@ -124,7 +124,20 @@ public class APIcheckerController {
 				{
 					messagesDisp = messagesDisp + ", " + vilationMessages;
 				}
-				sb.append(" <img src=\"../redDot.gif\" alt=\"x\" title=\""+violationKey+": "+messagesDisp+"\" height=\"13\" width=\"13\" />");
+				sb.append(" <img src=\"../redDot.gif\" alt=\" x \" title=\""+violationKey+": "+messagesDisp+"\" height=\"13\" width=\"13\" />");
+			}
+		}
+		
+		if (resourceNode.getNonViolationMessages().size() > 0)
+		{
+			for ( String violationKey : resourceNode.getNonViolationMessages().keySet())
+			{
+				String messagesDisp = "";
+				for (String vilationMessages : resourceNode.getNonViolationMessages().get(violationKey).getMessages())
+				{
+					messagesDisp = messagesDisp + ", " + vilationMessages;
+				}
+				sb.append(" <img src=\"../orangeDot.gif\" alt=\" ? \" title=\""+violationKey+": "+messagesDisp+"\" height=\"13\" width=\"13\" />");
 			}
 		}
 		

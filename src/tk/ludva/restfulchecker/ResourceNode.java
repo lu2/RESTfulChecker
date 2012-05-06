@@ -72,7 +72,7 @@ public class ResourceNode {
 		this.nonViolationMessages = nonViolationMessages;
 	}
 	
-	public void addNonViolationMessages(String key, String message) {
+	public void addNonViolationMessage(String key, String message) {
 		if (getNonViolationMessages().containsKey(key)) {
 			getNonViolationMessages().get(key).addMessage(message);
 		} else {
