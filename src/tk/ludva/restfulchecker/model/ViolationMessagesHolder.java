@@ -3,45 +3,88 @@ package tk.ludva.restfulchecker.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViolationMessagesHolder {
+/**
+ * Class for holding violation messages of same kind.
+ * @author Lu2
+ * 
+ */
+public class ViolationMessagesHolder
+{
+	/**
+	 * Key (kind) of message.
+	 */
 	private String key;
+	
+	/**
+	 * List of messages.
+	 */
 	private List<String> messages = new ArrayList<String>();
-	
-	public ViolationMessagesHolder() {
-		
+
+	public ViolationMessagesHolder()
+	{
+
 	}
-	
-	public ViolationMessagesHolder(String key, String message) {
+
+	/**
+	 * Initialize holder and store specified message into it.
+	 * @param key Key (kind) of message.
+	 * @param message text of message.
+	 */
+	public ViolationMessagesHolder(String key, String message)
+	{
 		this.key = key;
 		messages.add(message);
 	}
 
-	public String getKey() {
+	/**
+	 * Gets key (kind) of message.
+	 * @return key.
+	 */
+	public String getKey()
+	{
 		return key;
 	}
 
-	public void setKey(String key) {
+	/**
+	 * Sets key (kind) of message.
+	 * @param key as String.
+	 */
+	public void setKey(String key)
+	{
 		this.key = key;
 	}
 
-	public List<String> getMessages() {
+	/**
+	 * Gets List of messages in this holder.
+	 * @return List of messages.
+	 */
+	public List<String> getMessages()
+	{
 		return messages;
 	}
 
-	public void setMessages(List<String> messages) {
+	/**
+	 * Sets List of messages for this holder.
+	 * @param messages List of messages to be set.
+	 */
+	public void setMessages(List<String> messages)
+	{
 		this.messages = messages;
 	}
-	
-	
-	public void addMessage(String message) {
+
+	/**
+	 * Adds message to this holder.
+	 * @param message message to be added.
+	 */
+	public void addMessage(String message)
+	{
 		messages.add(message);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return key + ": " + messages.toString();
 	}
-	
-	
-	
+
 }

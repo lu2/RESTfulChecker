@@ -2,10 +2,21 @@ package tk.ludva.restfulchecker.validators;
 
 import tk.ludva.restfulchecker.ApiEntry;
 
-public class HttpValidator 
+/**
+ * Class for working with HTTP messages.
+ * @author Lu2
+ * 
+ */
+public class HttpValidator
 {
-	public static boolean responseOk(ApiEntry apiEntry) {
-		if (apiEntry.getResponseCode() >= 200 && apiEntry.getResponseCode() <=300)
+	/**
+	 * Determine if the HTTP response in apiEntry was successful.
+	 * @param apiEntry with response.
+	 * @return True if successful.
+	 */
+	public static boolean responseOk(ApiEntry apiEntry)
+	{
+		if (apiEntry.getResponseCode() >= 200 && apiEntry.getResponseCode() <= 300)
 		{
 			return true;
 		}

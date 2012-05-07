@@ -1,15 +1,50 @@
 package tk.ludva.restfulchecker;
 
-public class ApiEntry extends RemoteResource {
+/**
+ * Class for holding data about API entry point as well as for whole API.
+ * 
+ * @author Lu2
+ * 
+ */
+public class ApiEntry extends RemoteResource
+{
+	/**
+	 * Used for showing different elements in some JSPs
+	 */
 	private int showLevel = 0;
-	private String message;
-	private ResourceNode resourceNodes;
-	private int maxSiblings;
-	private String baseUrl;
-	private int valid;
-	private Questionnaires questionnaires;
 	
-	public ApiEntry() {
+	/**
+	 * Used to store messages between some JSPs and backend classes.
+	 */
+	private String message;
+	
+	/**
+	 * Entrypoint's resource node.
+	 */
+	private ResourceNode resourceNodes;
+	
+	/**
+	 * Limits max number of children for one ressource.
+	 */
+	private int maxSiblings;
+	
+	/**
+	 * URL for limiting the scope of API.
+	 */
+	private String baseUrl;
+	
+	/**
+	 * 
+	 */
+	private int valid;
+	
+	/**
+	 * Questionnaire for this API.
+	 */
+	private Questionnaires questionnaires;
+
+	public ApiEntry()
+	{
 		super();
 		setMethod("GET");
 		maxSiblings = 10;
@@ -17,59 +52,124 @@ public class ApiEntry extends RemoteResource {
 		questionnaires = new Questionnaires();
 	}
 
-	public int getShowLevel() {
+	/**
+	 * Gets the value of showLevel.
+	 * @return showLevel level number.
+	 */
+	public int getShowLevel()
+	{
 		return showLevel;
 	}
 
-	public void setShowLevel(int showLevel) {
+	/**
+	 * Sets the value of showLevel.
+	 * @param showLevel desired showLevel value.
+	 */
+	public void setShowLevel(int showLevel)
+	{
 		this.showLevel = showLevel;
 	}
 
-	public String getMessage() {
+	/**
+	 * Gets message.
+	 * @return message.
+	 */
+	public String getMessage()
+	{
 		return message;
 	}
 
-	public void setMessage(String message) {
+	/**
+	 * Sets message.
+	 * @param message desired message.
+	 */
+	public void setMessage(String message)
+	{
 		this.message = message;
 	}
-	
-	public ResourceNode getResourceNodes() {
+
+	/**
+	 * Gets ResourceNode.
+	 * @return ResourceNode.
+	 */
+	public ResourceNode getResourceNodes()
+	{
 		return resourceNodes;
 	}
 
-	public void setResourceNodes(ResourceNode resourceNodes) {
+	/**
+	 * Sets ResourceNode.
+	 * @param resourceNodes desired ResourceNode.
+	 */
+	public void setResourceNodes(ResourceNode resourceNodes)
+	{
 		this.resourceNodes = resourceNodes;
 	}
 
-	public int getMaxSiblings() {
+	/**
+	 * Gets maximum number of children.
+	 * @return maxSiblings.
+	 */
+	public int getMaxSiblings()
+	{
 		return maxSiblings;
 	}
 
-	public void setMaxSiblings(int maxSiblings) {
-		this.maxSiblings = maxSiblings;
+	/**
+	 * Sets maximum number of children (minimum 0).
+	 * @param maxSiblings desired maxSiblings.
+	 */
+	public void setMaxSiblings(int maxSiblings)
+	{
+		if (maxSiblings < 0)
+			this.maxSiblings = 0;
+		else
+			this.maxSiblings = maxSiblings;
 	}
 
-	public String getBaseUrl() {
+	/**
+	 * Gets baseUrl.
+	 * @return baseUrl.
+	 */
+	public String getBaseUrl()
+	{
 		return baseUrl;
 	}
 
-	public void setBaseUrl(String baseUrl) {
+	/**
+	 * Sets baseUrl.
+	 * @param baseUrl desired baseUrl.
+	 */
+	public void setBaseUrl(String baseUrl)
+	{
 		this.baseUrl = baseUrl;
 	}
 
+	/**
+	 * Gets valid level.
+	 * @return valid.
+	 */
 	public int getValid()
 	{
 		return valid;
 	}
 
+	/**
+	 * Sets valid level.
+	 * @param valid desired valid level.
+	 */
 	public void setValid(int valid)
 	{
 		this.valid = valid;
 	}
 
+	/**
+	 * Gets questionnaire for this API.
+	 * @return questionnaires.
+	 */
 	public Questionnaires getQuestionnaires()
 	{
 		return questionnaires;
 	}
-	
+
 }

@@ -1,48 +1,98 @@
 package tk.ludva.restfulchecker;
 
-public class Header {
-	
-	private String headerKey;
-	private String headerValue;
-	private boolean inUse;
-	
-	public Header() {
-	}
-	
-	
+/**
+ * Class used for holding HTTP header for form.
+ * @author Lu2
+ *
+ */
+public class Header
+{
 
-	public Header(String headerKey, String headerValue, boolean inUse) {
+	/**
+	 * HTTP header key.
+	 */
+	private String headerKey;
+	
+	/**
+	 * HTTP header value.
+	 */
+	private String headerValue;
+	
+	/**
+	 * Tells if the header should be applied.
+	 */
+	private boolean inUse;
+
+	public Header()
+	{
+	}
+
+	/**
+	 * Constructor for creating header.
+	 * @param headerKey HTTP header key.
+	 * @param headerValue HTTP header value.
+	 * @param inUse boolean if the header should be applied.
+	 */
+	public Header(String headerKey, String headerValue, boolean inUse)
+	{
 		super();
 		this.headerKey = headerKey;
 		this.headerValue = headerValue;
 		this.inUse = inUse;
 	}
 
-
-
-	public String getHeaderKey() {
+	/**
+	 * Gets HTTP header key.
+	 * @return String key.
+	 */
+	public String getHeaderKey()
+	{
 		return headerKey;
 	}
 
-	public void setHeaderKey(String headerKey) {
+	/**
+	 * Sets HTTP header key.
+	 * @param headerKey String desired key
+	 */
+	public void setHeaderKey(String headerKey)
+	{
 		this.headerKey = headerKey;
 	}
 
-	public String getHeaderValue() {
+	/**
+	 * Gets HTTP header value.
+	 * @return String header value.
+	 */
+	public String getHeaderValue()
+	{
 		return headerValue;
 	}
 
-	public void setHeaderValue(String headerValue) {
+	/**
+	 * Sets HTTP header value.
+	 * @param headerValue String desired value.
+	 */
+	public void setHeaderValue(String headerValue)
+	{
 		this.headerValue = headerValue;
 	}
 
-	public boolean isInUse() {
+	/**
+	 * Gets information about using header.
+	 * @return true if headder should be used.
+	 */
+	public boolean isInUse()
+	{
 		return inUse;
 	}
 
-	public void setInUse(boolean inUse) {
+	/**
+	 * Sets information about using header
+	 * @param inUse boolean true if should be used.
+	 */
+	public void setInUse(boolean inUse)
+	{
 		this.inUse = inUse;
 	}
-	
-	
+
 }

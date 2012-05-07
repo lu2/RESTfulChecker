@@ -12,34 +12,89 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class RemoteResource implements Cloneable {
+/**
+ * Class for holding information (HTTP request/response) about a resource.
+ * @author Lu2
+ *
+ */
+public class RemoteResource implements Cloneable
+{
+	/**
+	 * Logger for this class.
+	 */
 	private static final Logger log = Logger.getLogger(RemoteResource.class.getName());
-	private String url="http://";
+	
+	/**
+	 * URL.
+	 */
+	private String url = "http://";
+	
+	/**
+	 * HTTP METHOD.
+	 */
 	private String method;
+	
+	/**
+	 * List of HTTP Headers for request.
+	 */
 	private List<Header> requestHeaders = new ArrayList<Header>();
+	
+	/**
+	 * List of HTTP Headers from response.
+	 */
 	private List<Header> responseHeaders = new ArrayList<Header>();
+	
+	/**
+	 * HTTP body for request.
+	 */
 	private String requestBody;
+	
+	/**
+	 * Enables/disables sending of HTTP body in request.
+	 */
 	private boolean useRequestBody;
+	
+	/**
+	 * HTTP body from response.
+	 */
 	private String responseBody;
+	
+	/**
+	 * HTTP response code from response.
+	 */
 	private int responseCode;
+	
+	/**
+	 * HTTP response message from response.
+	 */
 	private String responseMessage;
 
-	public RemoteResource() {
-//		requestHeaders.add(new Header("Accept", "*/*", true));
+	public RemoteResource()
+	{
+		// requestHeaders.add(new Header("Accept", "*/*", true));
 	}
-	
-	public void sendRequest() {
+
+	/**
+	 * Sends HTTP request defined in this class and stores it into it. 
+	 * Deletes previous response held by this class (if any).
+	 */
+	public void sendRequest()
+	{
 		deletePreviousResponse();
 		HttpURLConnection conn = null;
-		try {
+		try
+		{
 			URL remoteUrl = new URL(getUrl());
-			conn = (HttpURLConnection)remoteUrl.openConnection();
+			conn = (HttpURLConnection) remoteUrl.openConnection();
 			conn.setRequestMethod(getMethod());
-			for (Iterator<Header> iterator = getRequestHeaders().iterator(); iterator.hasNext();) {
+			for (Iterator<Header> iterator = getRequestHeaders().iterator(); iterator.hasNext();)
+			{
 				Header header = (Header) iterator.next();
-				if (header.isInUse()) conn.setRequestProperty(header.getHeaderKey(), header.getHeaderValue());
+				if (header.isInUse())
+					conn.setRequestProperty(header.getHeaderKey(), header.getHeaderValue());
 			}
-			if (isUseRequestBody()) {
+			if (isUseRequestBody())
+			{
 				conn.setDoOutput(true);
 				DataOutputStream data = new DataOutputStream(conn.getOutputStream());
 				data.write(getRequestBody().getBytes());
@@ -48,116 +103,222 @@ public class RemoteResource implements Cloneable {
 			}
 			setResponseCode(conn.getResponseCode());
 			setResponseMessage(conn.getResponseMessage());
-			for (int n=0; n<conn.getHeaderFields().size(); n++) {
+			for (int n = 0; n < conn.getHeaderFields().size(); n++)
+			{
 				getResponseHeaders().add(new Header(conn.getHeaderFieldKey(n), conn.getHeaderField(n), true));
 			}
 			StringBuilder responseBody = new StringBuilder();
 			String radek;
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			while ((radek = reader.readLine()) != null) {
+			while ((radek = reader.readLine()) != null)
+			{
 				responseBody.append(radek);
 				int size = responseBody.length();
 				if (size > 256000)
 				{
-					//The resource is too big, cancel transmit and do not store.
+					// The resource is too big, cancel transmit and do not store.
 					responseBody = new StringBuilder("Content too big, ommiting this resource.");
 					break;
 				}
 			}
 			setResponseBody(responseBody.toString());
-		} catch (MalformedURLException e) {
+		}
+		catch (MalformedURLException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			log.severe(e.getMessage());
-		} catch (IOException e) {
-			System.out.println("url "+conn.getURL()+" doesn't exists!");
 		}
-		finally {
-			if (conn != null) conn.disconnect();
+		catch (IOException e)
+		{
+			System.out.println("url " + conn.getURL() + " doesn't exists!");
+		}
+		finally
+		{
+			if (conn != null)
+				conn.disconnect();
 		}
 	}
 
-	public void deletePreviousResponse() {
+	/**
+	 * Deletes HTTP response's data from this class.
+	 */
+	public void deletePreviousResponse()
+	{
 		responseHeaders = new ArrayList<Header>();
 		responseBody = null;
 		responseCode = 0;
 		responseMessage = null;
 	}
 
-	public String getUrl() {
+	/**
+	 * Gets URL of this resource.
+	 * @return URL as String.
+	 */
+	public String getUrl()
+	{
 		return url;
 	}
 
-	public void setUrl(String url) {
+	/**
+	 * Sets URL for this resource.
+	 * @param url String representation of URL.
+	 */
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
-	public String getMethod() {
+	/**
+	 * Gets HTTP METHOD.
+	 * @return method.
+	 */
+	public String getMethod()
+	{
 		return method;
 	}
 
-	public void setMethod(String method) {
+	/**
+	 * Sets HTTP METHOD.
+	 * @param method String representation of HTTP METHOD.
+	 */
+	public void setMethod(String method)
+	{
 		this.method = method;
 	}
 
-	public List<Header> getRequestHeaders() {
+	/**
+	 * Gets HTTP Headers for request.
+	 * @return List of Headers.
+	 */
+	public List<Header> getRequestHeaders()
+	{
 		return requestHeaders;
 	}
 
-	public void setRequestHeaders(List<Header> requestHeaders) {
+	/**
+	 * Sets HTTP Headers for request.
+	 * @param requestHeaders List of Headers.
+	 */
+	public void setRequestHeaders(List<Header> requestHeaders)
+	{
 		this.requestHeaders = requestHeaders;
 	}
 
-	public List<Header> getResponseHeaders() {
+	/**
+	 * Gets HTTP Headers from response.
+	 * @return List of Headers.
+	 */
+	public List<Header> getResponseHeaders()
+	{
 		return responseHeaders;
 	}
 
-	public void setResponseHeaders(List<Header> responseHeaders) {
+	/**
+	 * Sets HTTP Headers for response.
+	 * @param responseHeaders List of Headers.
+	 */
+	public void setResponseHeaders(List<Header> responseHeaders)
+	{
 		this.responseHeaders = responseHeaders;
 	}
 
-	public String getRequestBody() {
+	/**
+	 * Gets HTTP body for request.
+	 * @return requestBody as String.
+	 */
+	public String getRequestBody()
+	{
 		return requestBody;
 	}
 
-	public void setRequestBody(String requestBody) {
+	/**
+	 * Sets HTTP body for request.
+	 * @param requestBody String to be set.
+	 */
+	public void setRequestBody(String requestBody)
+	{
 		this.requestBody = requestBody;
 	}
 
-	public String getResponseBody() {
+	/**
+	 * Gets HTTP body for response.
+	 * @return body as String.
+	 */
+	public String getResponseBody()
+	{
 		return responseBody;
 	}
 
-	public void setResponseBody(String responseBody) {
+	/**
+	 * Sets HTTP body for response.
+	 * @param responseBody String to be set.
+	 */
+	public void setResponseBody(String responseBody)
+	{
 		this.responseBody = responseBody;
 	}
 
-	public int getResponseCode() {
+	/**
+	 * Gets HTTP response code from response.
+	 * @return response code.
+	 */
+	public int getResponseCode()
+	{
 		return responseCode;
 	}
 
-	public void setResponseCode(int i) {
+	/**
+	 * Sets HTTP response code for response.
+	 * @param i code to be set.
+	 */
+	public void setResponseCode(int i)
+	{
 		this.responseCode = i;
 	}
 
-	public String getResponseMessage() {
+	/**
+	 * Gets HTTP response message from response.
+	 * @return Response as String.
+	 */
+	public String getResponseMessage()
+	{
 		return responseMessage;
 	}
 
-	public void setResponseMessage(String responseMessage) {
+	/**
+	 * Sets HTTP response message.
+	 * @param responseMessage.
+	 */
+	public void setResponseMessage(String responseMessage)
+	{
 		this.responseMessage = responseMessage;
 	}
 
-	public boolean isUseRequestBody() {
+	/**
+	 * Gets information if body is used in Request.
+	 * @return true if is used.
+	 */
+	public boolean isUseRequestBody()
+	{
 		return useRequestBody;
 	}
 
-	public void setUseRequestBody(boolean useRequestBody) {
+	/**
+	 * Sets information if body should be used in Request.
+	 * @param useRequestBody true if should be used.
+	 */
+	public void setUseRequestBody(boolean useRequestBody)
+	{
 		this.useRequestBody = useRequestBody;
-	}	
-	
-	protected Object clone() throws CloneNotSupportedException {
+	}
+
+	/**
+	 * Clone this object.
+	 */
+	protected Object clone() throws CloneNotSupportedException
+	{
 		return super.clone();
 	}
-	
+
 }

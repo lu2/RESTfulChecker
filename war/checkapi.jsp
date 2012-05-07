@@ -50,7 +50,7 @@ function toggleVisibility(item) {
       <table>
       <tr>
       	<td><form:label path="maxSiblings">max siblings:</form:label></td>
-      	<td><form:input path="maxSiblings"/></td>
+      	<td><form:input path="maxSiblings"/> <form:errors path="maxSiblings" /> </td>
       </tr>
       <tr>
       	<td><form:label path="baseUrl">base Url:</form:label></td>
