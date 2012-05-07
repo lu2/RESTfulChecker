@@ -29,9 +29,9 @@ function toggleVisibility(item) {
     <form:form commandName="apiEntry" >
       <table>
         <tr>
-          <td>Insert API entry URL:</td>
+          <td>API entry URL:</td>
           <td><form:input path="url" /> </td>
-          <td><input type="submit" value="check this" /></td>
+          <td><input type="submit" value="Run Tests" /></td>
         </tr>
       </table>
       <input type="button" onclick="displayAddHeader();" value="Add header"/>

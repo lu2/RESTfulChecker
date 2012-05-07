@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.util.HtmlUtils;
+
 import tk.ludva.restfulchecker.model.ViolationMessagesHolder;
 
 /**
@@ -216,13 +218,13 @@ public class ResourceNode
 			if (responseHeader.getHeaderKey() != null)
 			{
 				htmlOutput.append("<tr>");
-				htmlOutput.append("<td>" + responseHeader.getHeaderKey() + "</td>");
-				htmlOutput.append("<td>" + responseHeader.getHeaderValue() + "</td>");
+				htmlOutput.append("<td>" + HtmlUtils.htmlEscape(responseHeader.getHeaderKey()) + "</td>");
+				htmlOutput.append("<td>" + HtmlUtils.htmlEscape(responseHeader.getHeaderValue()) + "</td>");
 				htmlOutput.append("</tr>");
 			}
 		}
 		htmlOutput.append("</table>");
-		htmlOutput.append("<p><textarea>" + currentResource.getResponseBody() + "</textarea></p>");
+		htmlOutput.append("<p><textarea>" + HtmlUtils.htmlEscape(currentResource.getResponseBody()) + "</textarea></p>");
 		htmlOutput.append("</div>");
 		if (currentResourceOptions == null)
 		{
@@ -235,12 +237,12 @@ public class ResourceNode
 		for (Header responseHeader : currentResourceOptions.getResponseHeaders())
 		{
 			htmlOutput.append("<tr>");
-			htmlOutput.append("<td>" + responseHeader.getHeaderKey() + "</td>");
-			htmlOutput.append("<td>" + responseHeader.getHeaderValue() + "</td>");
+			htmlOutput.append("<td>" + HtmlUtils.htmlEscape(responseHeader.getHeaderKey()) + "</td>");
+			htmlOutput.append("<td>" + HtmlUtils.htmlEscape(responseHeader.getHeaderValue()) + "</td>");
 			htmlOutput.append("</tr>");
 		}
 		htmlOutput.append("</table>");
-		htmlOutput.append("<p><textarea>" + currentResourceOptions.getResponseBody() + "</textarea></p>");
+		htmlOutput.append("<p><textarea>" + HtmlUtils.htmlEscape(currentResourceOptions.getResponseBody()) + "</textarea></p>");
 		htmlOutput.append("</div>\n");
 		return htmlOutput.toString();
 	}

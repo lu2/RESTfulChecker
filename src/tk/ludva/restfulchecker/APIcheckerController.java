@@ -315,6 +315,10 @@ public class APIcheckerController
 				{
 					messagesDisp = messagesDisp + ", " + vilationMessages;
 				}
+				if (messagesDisp.startsWith(", "))
+				{
+					messagesDisp = messagesDisp.substring(2);
+				}
 				sb.append(" <img src=\"../redDot.gif\" alt=\" x \" title=\"" + violationKey + ": " + messagesDisp
 						+ "\" height=\"13\" width=\"13\" />");
 			}
@@ -328,6 +332,10 @@ public class APIcheckerController
 				for (String vilationMessages : resourceNode.getNonViolationMessages().get(violationKey).getMessages())
 				{
 					messagesDisp = messagesDisp + ", " + vilationMessages;
+				}
+				if (messagesDisp.startsWith(", "))
+				{
+					messagesDisp = messagesDisp.substring(2);
 				}
 				sb.append(" <img src=\"../orangeDot.gif\" alt=\" ? \" title=\"" + violationKey + ": " + messagesDisp
 						+ "\" height=\"13\" width=\"13\" />");
@@ -403,6 +411,10 @@ public class APIcheckerController
 				{
 					messagesDisp = messagesDisp + ", " + vilationMessages;
 				}
+				if (messagesDisp.startsWith(", "))
+				{
+					messagesDisp = messagesDisp.substring(2);
+				}
 				sb.append("<error>");
 				sb.append("<key>");
 				sb.append(violationKey);
@@ -424,6 +436,10 @@ public class APIcheckerController
 				for (String vilationMessages : resourceNode.getNonViolationMessages().get(violationKey).getMessages())
 				{
 					messagesDisp = messagesDisp + ", " + vilationMessages;
+				}
+				if (messagesDisp.startsWith(", "))
+				{
+					messagesDisp = messagesDisp.substring(2);
 				}
 				sb.append("<warning>");
 				sb.append("<key>");
