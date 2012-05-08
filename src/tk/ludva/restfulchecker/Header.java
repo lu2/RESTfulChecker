@@ -1,7 +1,7 @@
 package tk.ludva.restfulchecker;
 
 /**
- * Class used for holding HTTP header for form.
+ * Class used for holding HTTP header.
  * @author Lu2
  *
  */

@@ -8,25 +8,12 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
     <title>RESTfulChecker</title>
     <link type="text/css" rel="stylesheet" href="../style.css"/>
-    <script type="text/javascript">
-function displayAddHeader() {
-  var headersTable = document.getElementById("headersTable");
-  var rows = headersTable.getElementsByTagName("tr");
-  var nextHeaderIndex = (rows.length);
-  var y = document.createElement('tr');
-  y.innerHTML = '<td><input id="requestHeaders.inUse'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].inUse" type="checkbox" checked="yes"/></td><td class="headerField"><input id="requestHeaders.headerKey'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerKey" type="text"/></td><td class="headerField">:</td><td class="headerField"><input id="requestHeaders.headerValue'+nextHeaderIndex+'" name="requestHeaders['+nextHeaderIndex+'].headerValue" type="text"/></td>';
-  headersTable.appendChild(y);
-}
-function toggleVisibility(item) {
-	if (item.style.visibility == '') item.style.visibility = 'visible'; 
-	else item.style.visibility = '';
-}
-  </script>
+    <script type="text/javascript" src="../scripts.js"></script>
   </head> 
   <body>
   <h1>RESTfulChecker</h1>
   <p>${apiEntry.message}</p>
-    <form:form commandName="apiEntry" >
+    <form:form commandName="apiEntry" action="./">
       <table>
         <tr>
           <td>API entry URL:</td>
@@ -34,8 +21,11 @@ function toggleVisibility(item) {
           <td><input type="submit" value="Run Tests" /></td>
         </tr>
       </table>
+      <p>
       <input type="button" onclick="displayAddHeader();" value="Add header"/>
+      </p>
       <table id="headersTable">
+      <tr style="display:none;"><td style="display:none;"> </td><td style="display:none;"> </td></tr>
       <c:set var="lastHeaderIndex" value="-1"/>
       <c:forEach items="${apiEntry.requestHeaders}" varStatus="status" var="requestHeader">
         <tr>

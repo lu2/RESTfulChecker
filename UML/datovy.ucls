@@ -1,0 +1,202 @@
+<class-diagram version="1.0.8" icons="false" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.model.ErrsAndWarns" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/model/ErrsAndWarns.java" binary="false">    
+    <position height="225" width="133" x="136" y="-82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="2" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.APINotAccesibleException" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/APINotAccesibleException.java" 
+    binary="false">    
+    <position height="90" width="177" x="309" y="-82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.UrlWorker" project="RESTfulChecker" 
+    file="/RESTfulChecker/src/tk/ludva/restfulchecker/UrlWorker.java" binary="false">    
+    <position height="135" width="204" x="526" y="-82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.APIcheckerController" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/APIcheckerController.java" binary="false">    
+    <position height="435" width="462" x="770" y="-82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.LinkExtrator" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/LinkExtrator.java" binary="false">    
+    <position height="195" width="196" x="1544" y="-82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="6" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.validators.HttpValidator" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/validators/HttpValidator.java" 
+    binary="false">    
+    <position height="90" width="163" x="1780" y="-82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="7" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.validators.RestValidator" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/validators/RestValidator.java" 
+    binary="false">    
+    <position height="180" width="232" x="1272" y="-82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="8" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.ApiEntry" project="RESTfulChecker" 
+    file="/RESTfulChecker/src/tk/ludva/restfulchecker/ApiEntry.java" binary="false">    
+    <position height="345" width="210" x="1507" y="1353"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="9" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.Questionnaires" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/Questionnaires.java" binary="false">    
+    <position height="630" width="125" x="1507" y="1738"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="10" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.ResourceNode" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/ResourceNode.java" binary="false">    
+    <position height="360" width="355" x="1272" y="393"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="11" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.model.ViolationMessagesHolder" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/model/ViolationMessagesHolder.java" 
+    binary="false">    
+    <position height="210" width="203" x="1029" y="803"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="12" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.Header" project="RESTfulChecker" 
+    file="/RESTfulChecker/src/tk/ludva/restfulchecker/Header.java" binary="false">    
+    <position height="225" width="157" x="1272" y="1353"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="13" corner="BOTTOM_RIGHT" language="java" name="tk.ludva.restfulchecker.RemoteResource" 
+    project="RESTfulChecker" file="/RESTfulChecker/src/tk/ludva/restfulchecker/RemoteResource.java" binary="false">    
+    <position height="510" width="214" x="1272" y="803"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <association id="14">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="15" name="currentResource"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="17">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="18" name="violationMessages"/>      
+      <multiplicity id="19" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="20">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="21" name="questionnaires"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="23">    
+    <bendpoint x="1516" y="803"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="24" name="resourceNodes"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="27" name="requestHeaders"/>      
+      <multiplicity id="28" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="30" name="descendants"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="32">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="33">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="34" name="parrentResourceNode"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="36">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="37" name="currentResourceOptions"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="40" name="responseHeaders"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="43" name="nonViolationMessages"/>      
+      <multiplicity id="44" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

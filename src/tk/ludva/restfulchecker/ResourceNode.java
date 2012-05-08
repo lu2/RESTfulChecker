@@ -186,7 +186,7 @@ public class ResourceNode
 	}
 
 	/**
-	 * Returns HTML representation for this resource.
+	 * Returns HTML representation of response for this resource.
 	 * @return HTML representation in String.
 	 */
 	public String toStringResponse()
@@ -259,7 +259,7 @@ public class ResourceNode
 	}
 
 	/**
-	 * delete this?
+	 * TODO: delete this?
 	 */
 	@Override
 	public String toString()

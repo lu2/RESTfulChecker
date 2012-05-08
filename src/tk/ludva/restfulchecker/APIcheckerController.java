@@ -492,19 +492,19 @@ public class APIcheckerController
 		String validation;
 		if (restValidator.validateApi())
 		{
-			validation = "<h3>Your API is RESTful.</h3>";
+			validation = "</p><h3>Your API is RESTful.</h3>";
 		}
 		else
 		{
 			ErrsAndWarns errsAndWarns = countErrsAndWarns(apiEntry);
 			if (errsAndWarns.getErrorsCount() == 0)
 			{
-				validation = "<h3>Your API is RESTful, but found " + errsAndWarns.getWarnsCount()
+				validation = "</p><h3>Your API is RESTful, but found " + errsAndWarns.getWarnsCount()
 						+ " warnings - see yellow marks below for details.</h3>";
 			}
 			else
 			{
-				validation = "<h3>Your API is not RESTful, found " + errsAndWarns.getErrorsCount() + " errors and "
+				validation = "</p><h3>Your API is not RESTful, found " + errsAndWarns.getErrorsCount() + " errors and "
 						+ errsAndWarns.getWarnsCount() + " warnings - see colored marks below for details.</h3>";
 			}
 		}
