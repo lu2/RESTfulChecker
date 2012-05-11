@@ -62,6 +62,22 @@
       <td><form:checkbox path="questionnaires.q3a" id="questionnaires.q3a" /></td>
       </tr>
       <tr>
+      <td><form:label path="questionnaires.q4a">${apiEntry.questionnaires.q4}</form:label></td>
+      <td><form:checkbox path="questionnaires.q4a" id="questionnaires.q4a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.q5a">${apiEntry.questionnaires.q5}</form:label></td>
+      <td><form:checkbox path="questionnaires.q5a" id="questionnaires.q5a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.q6a">${apiEntry.questionnaires.q6}</form:label></td>
+      <td><form:checkbox path="questionnaires.q6a" id="questionnaires.q6a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.q7a">${apiEntry.questionnaires.q7}</form:label></td>
+      <td><form:checkbox path="questionnaires.q7a" id="questionnaires.q7a" /></td>
+      </tr>
+      <tr>
       <td><form:label path="questionnaires.q11a">${apiEntry.questionnaires.q11}</form:label></td>
       <td><form:checkbox path="questionnaires.Q11a" id="questionnaires.q11a" /></td>
       </tr>
@@ -72,6 +88,18 @@
       <tr>
       <td><form:label path="questionnaires.q13a">${apiEntry.questionnaires.q13}</form:label></td>
       <td><form:checkbox path="questionnaires.q13a" id="questionnaires.q13a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.q14a">${apiEntry.questionnaires.q14}</form:label></td>
+      <td><form:checkbox path="questionnaires.q14a" id="questionnaires.q14a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.q15a">${apiEntry.questionnaires.q15}</form:label></td>
+      <td><form:checkbox path="questionnaires.q15a" id="questionnaires.q15a" /></td>
+      </tr>
+      <tr>
+      <td><form:label path="questionnaires.q16a">${apiEntry.questionnaires.q16}</form:label></td>
+      <td><form:checkbox path="questionnaires.q16a" id="questionnaires.q16a" /></td>
       </tr>
       </table>
     </form:form>
@@ -86,7 +114,7 @@
       </tr>
     </c:forEach>
     </table>
-    <p><textarea><c:out value="${apiEntry.responseBody}"/></textarea></p>
+    <p><textarea cols="68" rows="12"><c:out value="${apiEntry.responseBody}"/></textarea></p>
     
   </body>
 </html>

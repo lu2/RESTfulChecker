@@ -2,10 +2,12 @@ package tk.ludva.restfulchecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.http.HttpHeaders;
@@ -115,15 +117,20 @@ public class APIcheckerController
 	 * @return ResponseEntity with resource body.
 	 */
 	@RequestMapping(value = "/repeatedtesting", method = RequestMethod.POST)
-	public ResponseEntity<String> doCheckAPIRepeatedTesting(ApiEntry apiEntry)
+	public ResponseEntity<String> doCheckAPIRepeatedTesting(ApiEntry apiEntry, BindingResult result)
 	{
+		if (result.hasErrors())
+		{
+			apiEntry.setMessage("Invalid input: max siblings");
+			return new ResponseEntity<String>(apiEntry.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		if (!apiEntry.getUrl().startsWith("http://") && !apiEntry.getUrl().startsWith("https://"))
 		{
 			apiEntry.setUrl("http://" + apiEntry.getUrl());
 		}
 		if (apiEntry.getUrl().length() < 10)
 		{
-			apiEntry.setMessage("Invalid URL");
+			apiEntry.setMessage("Invalid input: URL");
 			return new ResponseEntity<String>(apiEntry.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		createTree(apiEntry);
@@ -221,16 +228,30 @@ public class APIcheckerController
 	{
 		String evaluation = apiEntry.getQuestionnaires().evaluate();
 		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
-		sb.append("<div id=\"questionnairesEvaluation\">");
-		sb.append("From answers in questionnaire, we can determine if your API comply with following two REST constraints: ");
-		sb.append("<ul><li>client-server,</li><li>stateless.</li></ul>\n");
+		sb.append("\n<div id=\"questionnairesEvaluation\">");
+		sb.append("<h4>Questionnaires evaluation</h4>");
 		if (evaluation.equals(""))
 		{
-			sb.append("Your answers indicates, that both of these constraints are met.");
+			sb.append("Client-Server OK!<br /> Stateless constraints OK!<br />");
 		}
 		else
 		{
-			sb.append("Your answers indicates that these constraints are not met because:\n");
+			if (!evaluation.contains("This is violation of REST constraint: Client-Server."))
+			{
+				sb.append("Client-Server constraint OK!<br />");
+			}
+			else
+			{
+				sb.append("Client-Server constraint VIOLATION!<br />");
+			}
+			if (!evaluation.contains("This is violation of REST constraint: Stateless."))
+			{
+				sb.append("Stateless constraint OK!<br />");
+			}
+			else
+			{
+				sb.append("Stateless constraint VIOLATION!<br />");
+			}
 			sb.append(evaluation);
 		}
 		sb.append("</div>\n");
@@ -244,8 +265,9 @@ public class APIcheckerController
 	private void generateViewOfResources(ApiEntry apiEntry)
 	{
 		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
-		sb.append("<div id=\"resourceView\">");
-		writeResourceNodeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), sb);
+		Set<String> visited = new HashSet<String>();
+		sb.append("\n<div id=\"resourceView\">");
+		writeResourceNodeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), sb, visited);
 
 		sb.append("</div>\n");
 
@@ -258,15 +280,17 @@ public class APIcheckerController
 	 * @param baseUrl Used for shortening the URI id's of resources.
 	 * @param sb StringBuilder in which the representation is written.
 	 */
-	private void writeResourceNodeView(ResourceNode resourceNode, String baseUrl, StringBuilder sb)
+	private void writeResourceNodeView(ResourceNode resourceNode, String baseUrl, StringBuilder sb, Set<String> visited)
 	{
+		if (visited.contains(resourceNode.getCurrentResource().getUrl())) return;
 		if (resourceNode.getCurrentResource().getResponseCode() != 0)
 		{
 			sb.append(resourceNode.toStringResponse());
+			visited.add(resourceNode.getCurrentResource().getUrl());
 		}
 		for (ResourceNode rs : resourceNode.getDescendants())
 		{
-			writeResourceNodeView(rs, baseUrl, sb);
+			writeResourceNodeView(rs, baseUrl, sb, visited);
 		}
 	}
 
@@ -277,11 +301,12 @@ public class APIcheckerController
 	private void generateViewOfTree(ApiEntry apiEntry)
 	{
 		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
-		sb.append("This API structure was found: ");
+		sb.append("\n<div id=\"apiTree\">");
+		sb.append("<h4>The API structure:</h4> ");
 		sb.append("<ul>\n");
 		writeResourceNodeTreeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), apiEntry.getMaxSiblings(), sb);
 
-		sb.append("</ul>\n");
+		sb.append("</ul>\n</div><p>");
 
 		apiEntry.setMessage(sb.toString());
 	}
@@ -303,7 +328,7 @@ public class APIcheckerController
 			temp = "/";
 		}
 		sb.append("<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"
-				+ resourceNode.getCurrentResource().getUrl() + "\')); return false\" >#</a> ");
+				+ HttpValidator.toSafeId(resourceNode.getCurrentResource().getUrl()) + "\')); return false\" > more info</a> ");
 		sb.append(temp);
 
 		if (resourceNode.getViolationMessages().size() > 0)
@@ -492,20 +517,20 @@ public class APIcheckerController
 		String validation;
 		if (restValidator.validateApi())
 		{
-			validation = "</p><h3>Your API is RESTful.</h3>";
+			validation = "</p><h4>Automatically checked constraints</h4><p>Cache constraint OK!<br />Layered System constraint OK!<br />Uniform Interface OK! (for resources under the API structure)</p>";
 		}
 		else
 		{
 			ErrsAndWarns errsAndWarns = countErrsAndWarns(apiEntry);
 			if (errsAndWarns.getErrorsCount() == 0)
 			{
-				validation = "</p><h3>Your API is RESTful, but found " + errsAndWarns.getWarnsCount()
-						+ " warnings - see yellow marks below for details.</h3>";
+				validation = "</p><h4>Automatically checked constraints</h4><p>Cache constraint OK!<br />Layered System constraint OK!<br />Uniform Interface OK! (for resources under the API structure)<br /> But found " + errsAndWarns.getWarnsCount()
+						+ " warnings - see yellow marks below for details.</p>";
 			}
 			else
 			{
-				validation = "</p><h3>Your API is not RESTful, found " + errsAndWarns.getErrorsCount() + " errors and "
-						+ errsAndWarns.getWarnsCount() + " warnings - see colored marks below for details.</h3>";
+				validation = "</p><h4>Automatically checked constraints</h4><p>Your API is not RESTful, found " + errsAndWarns.getErrorsCount() + " errors and "
+						+ errsAndWarns.getWarnsCount() + " warnings - see colored marks below for details.</p>";
 			}
 		}
 		apiEntry.setMessage(validation);

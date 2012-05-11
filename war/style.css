@@ -4,11 +4,6 @@ th {
 	min-width: 5em;
 }
 
-textarea {
-	width: 96%;
-	height: 200px;
-}
-
 #url, #baseUrl {
 	width: 333px;
 }

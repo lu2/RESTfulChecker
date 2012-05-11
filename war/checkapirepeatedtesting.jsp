@@ -13,7 +13,7 @@
   <body>
   <h1>RESTfulChecker</h1>
   <p>${apiEntry.message}</p>
-    <form:form commandName="apiEntry" action="./" >
+    <form:form commandName="apiEntry" action="repeatedtesting" >
       <table>
         <tr>
           <td>API entry URL:</td>
@@ -47,7 +47,6 @@
       	<td><form:input path="baseUrl"/></td>
       </tr>
       </table>
-      
     </form:form>
     
   </body>

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.web.util.HtmlUtils;
 
 import tk.ludva.restfulchecker.model.ViolationMessagesHolder;
+import tk.ludva.restfulchecker.validators.HttpValidator;
 
 /**
  * Class for holding resources in Tree structure.
@@ -196,7 +197,7 @@ public class ResourceNode
 		// htmlOutput.append("<span class=\"violationMessage\">"+violationMessages.values().toString()+"</span>");
 		// htmlOutput.append("<span class=\"nonViolationMessage\">"+nonViolationMessages.values().toString()+"</span>");
 		// htmlOutput.append("</div>");
-		htmlOutput.append("<div class=\"requestResponse\" id=\"" + currentResource.getUrl() + "\">");
+		htmlOutput.append("<div class=\"requestResponse\" id=\"" + HttpValidator.toSafeId(currentResource.getUrl()) + "\">");
 		String resp = null;
 		for (Header responseHeader : currentResource.getResponseHeaders())
 		{
@@ -224,13 +225,13 @@ public class ResourceNode
 			}
 		}
 		htmlOutput.append("</table>");
-		htmlOutput.append("<p><textarea>" + HtmlUtils.htmlEscape(currentResource.getResponseBody()) + "</textarea></p>");
+		htmlOutput.append("<p><textarea cols=\"68\" rows=\"12\">" + HtmlUtils.htmlEscape(currentResource.getResponseBody()) + "</textarea></p>");
 		htmlOutput.append("</div>");
 		if (currentResourceOptions == null)
 		{
 			return htmlOutput.toString();
 		}
-		htmlOutput.append("<div class=\"requestResponse\" id=\"o" + currentResourceOptions.getUrl() + "\">");
+		htmlOutput.append("<div class=\"requestResponse\" id=\"o" + HttpValidator.toSafeId(currentResourceOptions.getUrl()) + "\">");
 		htmlOutput.append("<p>" + currentResourceOptions.getResponseCode() + " " + currentResourceOptions.getResponseMessage()
 				+ "</p>");
 		htmlOutput.append("<table class=\"responseHeaders\">");
@@ -242,7 +243,7 @@ public class ResourceNode
 			htmlOutput.append("</tr>");
 		}
 		htmlOutput.append("</table>");
-		htmlOutput.append("<p><textarea>" + HtmlUtils.htmlEscape(currentResourceOptions.getResponseBody()) + "</textarea></p>");
+		htmlOutput.append("<p><textarea cols=\"68\" rows=\"12\">" + HtmlUtils.htmlEscape(currentResourceOptions.getResponseBody()) + "</textarea></p>");
 		htmlOutput.append("</div>\n");
 		return htmlOutput.toString();
 	}
@@ -256,25 +257,6 @@ public class ResourceNode
 		return "<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'" + currentResource.getUrl()
 				+ "\')); return false\" >#</a>" + "<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'o"
 				+ currentResource.getUrl() + "\')); return false\" >o</a>";
-	}
-
-	/**
-	 * TODO: delete this?
-	 */
-	@Override
-	public String toString()
-	{
-		if (descendants == null)
-			return "<li>" + toStringDetail() + " " + currentResource.getUrl() + " " + toStringResponse() + " " + "<ul>"
-					+ descendants + "</ul></li>";
-		if (descendants.size() >= 10)
-		{
-			return "<li>" + toStringDetail() + " " + currentResource.getUrl() + " " + toStringResponse() + " " + "<ul>"
-					+ descendants.subList(0, 10) + "<li>and " + (descendants.size() - 10)
-					+ " more, TODO dead ones.</li></ul></li>";
-		}
-		return "<li>" + toStringDetail() + " " + currentResource.getUrl() + " " + toStringResponse() + " " + "<ul>"
-				+ descendants + "</ul></li>";
 	}
 
 	/**

@@ -25,4 +25,9 @@ public class HttpValidator
 			return false;
 		}
 	}
+	
+	public static String toSafeId(String input)
+	{
+		return input.replace('/', '_').replace('?', '_').replace('=', '_').replace('&', '_').replace(';', '_');
+	}
 }

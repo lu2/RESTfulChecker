@@ -27,5 +27,11 @@ public class ResourceNodeTest {
 		assertEquals("one", resourceNode.getViolationMessages().get("1").getMessages().get(0));
 		assertEquals("two", resourceNode.getViolationMessages().get("1").getMessages().get(1));
 	}
+	
+	@Test
+	public void testGetDescendats() {
+		resourceNode = new ResourceNode();
+		assertNotNull(resourceNode.getDescendants());
+	}
 
 }

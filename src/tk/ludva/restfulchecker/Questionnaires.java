@@ -11,7 +11,7 @@ public class Questionnaires
 	/**
 	 * Question 1 definition.
 	 */
-	private static final String Q1 = "Does your application providing service for other machines (clients)?";
+	private static final String Q1 = "The application is divided to server and client.";
 	
 	/**
 	 * Question 1 correct answer.
@@ -21,7 +21,7 @@ public class Questionnaires
 	/**
 	 * Question 2 definition.
 	 */
-	private static final String Q2 = "Is that service available to more then one client?";
+	private static final String Q2 = "Clients access the server.";
 	
 	/**
 	 * Question 2 correct answer.
@@ -31,18 +31,58 @@ public class Questionnaires
 	/**
 	 * Question 3 definition.
 	 */
-	private static final String Q3 = "Does your application listening and responding for request on that service?";
+	private static final String Q3 = "The server can serve multiple clients.";
 	
 	/**
 	 * Question 3 correct answer.
 	 */
 	private static final boolean Q3_correctA = true;
+	
+	/**
+	 * Question 4 definition.
+	 */
+	private static final String Q4 = "The client initiates connection with server.";
+	
+	/**
+	 * Question 4 correct answer.
+	 */
+	private static final boolean Q4_correctA = true;
+	
+	/**
+	 * Question 5 definition.
+	 */
+	private static final String Q5 = "The server initiates connection with client.";
+	
+	/**
+	 * Question 5 correct answer.
+	 */
+	private static final boolean Q5_correctA = false;
+	
+	/**
+	 * Question 6 definition.
+	 */
+	private static final String Q6 = "The server provides data.";
+	
+	/**
+	 * Question 6 correct answer.
+	 */
+	private static final boolean Q6_correctA = true;
+	
+	/**
+	 * Question 7 definition.
+	 */
+	private static final String Q7 = "The client consumes data.";
+	
+	/**
+	 * Question 7 correct answer.
+	 */
+	private static final boolean Q7_correctA = true;
 
 	// Questions{Stateless}
 	/**
 	 * Question 11 definition.
 	 */
-	private static final String Q11 = "Does your server part of application keeping any client's context while communicating with client?";
+	private static final String Q11 = "The server can hold client's context.";
 	
 	/**
 	 * Question 11 correct answer.
@@ -52,7 +92,7 @@ public class Questionnaires
 	/**
 	 * Question 12 definition.
 	 */
-	private static final String Q12 = "Does the client keeping all the needed context while communicating with your application?";
+	private static final String Q12 = "The client can hold server's context.";
 	
 	/**
 	 * Question 12 correct answer.
@@ -62,12 +102,42 @@ public class Questionnaires
 	/**
 	 * Question 13 definition.
 	 */
-	private static final String Q13 = "Is one client request enough for your application to create appropriate response?";
+	private static final String Q13 = "The client keeps entire context of application state.";
 	
 	/**
 	 * Question 13 correct answer.
 	 */
 	private static final boolean Q13_correctA = true;
+	
+	/**
+	 * Question 14 definition.
+	 */
+	private static final String Q14 = "The server keeps entire context of application state.";
+	
+	/**
+	 * Question 14 correct answer.
+	 */
+	private static final boolean Q14_correctA = false;
+	
+	/**
+	 * Question 15 definition.
+	 */
+	private static final String Q15 = "The server uses sessions and passes session id to client.";
+	
+	/**
+	 * Question 15 correct answer.
+	 */
+	private static final boolean Q15_correctA = false;
+	
+	/**
+	 * Question 16 definition.
+	 */
+	private static final String Q16 = "The client sends sessions id in cookies.";
+	
+	/**
+	 * Question 16 correct answer.
+	 */
+	private static final boolean Q16_correctA = false;
 
 	/**
 	 * Question 1 answer.
@@ -85,6 +155,26 @@ public class Questionnaires
 	private boolean Q3a;
 	
 	/**
+	 * Question 4 answer.
+	 */
+	private boolean Q4a;
+	
+	/**
+	 * Question 5 answer.
+	 */
+	private boolean Q5a;
+	
+	/**
+	 * Question 6 answer.
+	 */
+	private boolean Q6a;
+	
+	/**
+	 * Question 7 answer.
+	 */
+	private boolean Q7a;
+	
+	/**
 	 * Question 11 answer.
 	 */
 	private boolean Q11a;
@@ -98,15 +188,37 @@ public class Questionnaires
 	 * Question 13 answer.
 	 */
 	private boolean Q13a;
+	
+	/**
+	 * Question 14 answer.
+	 */
+	private boolean Q14a;
+	
+	/**
+	 * Question 15 answer.
+	 */
+	private boolean Q15a;
+	
+	/**
+	 * Question 16 answer.
+	 */
+	private boolean Q16a;
 
 	public Questionnaires()
 	{
 		Q1a = Q1_correctA;
 		Q2a = Q2_correctA;
 		Q3a = Q3_correctA;
+		Q4a = Q4_correctA;
+		Q5a = Q5_correctA;
+		Q6a = Q6_correctA;
+		Q7a = Q7_correctA;
 		Q11a = Q11_correctA;
 		Q12a = Q12_correctA;
 		Q13a = Q13_correctA;
+		Q14a = Q14_correctA;
+		Q15a = Q15_correctA;
+		Q16a = Q16_correctA;
 	}
 
 	/**
@@ -120,35 +232,70 @@ public class Questionnaires
 		if (Q1a != Q1_correctA)
 		{
 			evaluationResult
-					.append("<li>You stated, that your application doesn't providing service for other machines (clients). This is violation of REST constraint: Client-Server.</li>\n");
+					.append("<li>You stated that the application is not divided to server and client. This is violation of REST constraint: Client-Server.</li>\n");
 		}
 		if (Q2a != Q2_correctA)
 		{
 			evaluationResult
-					.append("<li>You stated, that your service isn't available to more then one client. This is violation of REST constraint: Client-Server.</li>\n");
+					.append("<li>You stated that clients does not access the server. This is violation of REST constraint: Client-Server.</li>\n");
 		}
 		if (Q3a != Q3_correctA)
 		{
 			evaluationResult
-					.append("<li>You stated, that your server part of application doesn't listening and responding for requests. This is violation of REST constraint: Client-Server.</li>\n");
+					.append("<li>You stated that the server cannot serve multiple clients. This is violation of REST constraint: Client-Server.</li>\n");
 		}
-
+		if (Q4a != Q4_correctA)
+		{
+			evaluationResult
+					.append("<li>You stated that the client does not initiate connection with server. This is violation of REST constraint: Client-Server.</li>\n");
+		}
+		if (Q5a != Q5_correctA)
+		{
+			evaluationResult
+					.append("<li>You stated that the server initiates connection with client. This is violation of REST constraint: Client-Server.</li>\n");
+		}
+		if (Q6a != Q6_correctA)
+		{
+			evaluationResult
+					.append("<li>You stated that the server does not provide data. This is violation of REST constraint: Client-Server.</li>\n");
+		}
+		if (Q7a != Q7_correctA)
+		{
+			evaluationResult
+					.append("<li>You stated that the client does not consume data. This is violation of REST constraint: Client-Server.</li>\n");
+		}
+		
 		if (Q11a != Q11_correctA)
 		{
 			evaluationResult
-					.append("<li>You stated, that your server part of application is keeping client's context while communicating with client. This is violation of REST constraint: Stateless.</li>\n");
+					.append("<li>You stated that the server can hold client's context. This is violation of REST constraint: Stateless.</li>\n");
 		}
-
 		if (Q12a != Q12_correctA)
 		{
 			evaluationResult
-					.append("<li>You stated, that the client doesn't keeps all the needed context while communicating with your application. This is violation of REST constraint: Stateless.</li>\n");
+					.append("<li>You stated that the client cannot hold server's context. This is violation of REST constraint: Stateless.</li>\n");
 		}
 		if (Q13a != Q13_correctA)
 		{
 			evaluationResult
-					.append("<li>You stated, that one client request isn't enough for your application to create appropriate response. This is violation of REST constraint: Stateless.</li>\n");
+					.append("<li>You stated that the client does not keep entire context of application state. This is violation of REST constraint: Stateless.</li>\n");
 		}
+		if (Q14a != Q14_correctA)
+		{
+			evaluationResult
+					.append("<li>You stated that the server keeps entire context of application state. This is violation of REST constraint: Stateless.</li>\n");
+		}
+		if (Q15a != Q15_correctA)
+		{
+			evaluationResult
+					.append("<li>You stated that the server uses sessions and passes session id to client. This is violation of REST constraint: Stateless.</li>\n");
+		}
+		if (Q16a != Q16_correctA)
+		{
+			evaluationResult
+					.append("<li>You stated that the client sends sessions id in cookies. This is violation of REST constraint: Stateless.</li>\n");
+		}
+		
 		evaluationResult.append("</ul>");
 		String toReturn = evaluationResult.toString();
 		if (toReturn.equals("<ul></ul>"))
@@ -324,5 +471,196 @@ public class Questionnaires
 	{
 		return Q13;
 	}
+
+	/**
+	 * Gets answer to question 4.
+	 * @return true if yes.
+	 */
+	public boolean isQ4a()
+	{
+		return Q4a;
+	}
+
+	/**
+	 * Sets answer to question 4.
+	 * @param q4a true if yes.
+	 */
+	public void setQ4a(boolean q4a)
+	{
+		Q4a = q4a;
+	}
+
+	/**
+	 * Gets answer to question 5.
+	 * @return true if yes.
+	 */
+	public boolean isQ5a()
+	{
+		return Q5a;
+	}
+
+	/**
+	 * Sets answer to question 5.
+	 * @param q5a true if yes.
+	 */
+	public void setQ5a(boolean q5a)
+	{
+		Q5a = q5a;
+	}
+
+	/**
+	 * Gets answer to question 6.
+	 * @return true if yes.
+	 */
+	public boolean isQ6a()
+	{
+		return Q6a;
+	}
+
+	/**
+	 * Sets answer to question 6.
+	 * @param q6a true if yes.
+	 */
+	public void setQ6a(boolean q6a)
+	{
+		Q6a = q6a;
+	}
+
+	/**
+	 * Gets answer to question 7.
+	 * @return true if yes.
+	 */
+	public boolean isQ7a()
+	{
+		return Q7a;
+	}
+
+	/**
+	 * Sets answer to question 7.
+	 * @param q7a true if yes.
+	 */
+	public void setQ7a(boolean q7a)
+	{
+		Q7a = q7a;
+	}
+
+	/**
+	 * Gets answer to question 14.
+	 * @return true if yes.
+	 */
+	public boolean isQ14a()
+	{
+		return Q14a;
+	}
+
+	/**
+	 * Sets answer to question 14.
+	 * @param q14a true if yes.
+	 */
+	public void setQ14a(boolean q14a)
+	{
+		Q14a = q14a;
+	}
+
+	/**
+	 * Gets answer to question 15.
+	 * @return true if yes.
+	 */
+	public boolean isQ15a()
+	{
+		return Q15a;
+	}
+
+	/**
+	 * Sets answer to question 15.
+	 * @param q15a true if yes.
+	 */
+	public void setQ15a(boolean q15a)
+	{
+		Q15a = q15a;
+	}
+
+	/**
+	 * Gets answer to question 16.
+	 * @return true if yes.
+	 */
+	public boolean isQ16a()
+	{
+		return Q16a;
+	}
+
+	/**
+	 * Sets answer to question 16.
+	 * @param q16a true if yes.
+	 */
+	public void setQ16a(boolean q16a)
+	{
+		Q16a = q16a;
+	}
+
+	/**
+	 * Gets text of question 4.
+	 * @return text of question.
+	 */
+	public String getQ4()
+	{
+		return Q4;
+	}
+
+	/**
+	 * Gets text of question 5.
+	 * @return text of question.
+	 */
+	public String getQ5()
+	{
+		return Q5;
+	}
+
+	/**
+	 * Gets text of question 6.
+	 * @return text of question.
+	 */
+	public String getQ6()
+	{
+		return Q6;
+	}
+
+	/**
+	 * Gets text of question 7.
+	 * @return text of question.
+	 */
+	public String getQ7()
+	{
+		return Q7;
+	}
+
+	/**
+	 * Gets text of question 14.
+	 * @return text of question.
+	 */
+	public String getQ14()
+	{
+		return Q14;
+	}
+
+	/**
+	 * Gets text of question 15.
+	 * @return text of question.
+	 */
+	public String getQ15()
+	{
+		return Q15;
+	}
+
+	/**
+	 * Gets text of question 16.
+	 * @return text of question.
+	 */
+	public String getQ16()
+	{
+		return Q16;
+	}
+	
+	
 
 }
