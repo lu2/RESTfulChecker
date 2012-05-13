@@ -11,9 +11,30 @@
     <script type="text/javascript" src="../scripts.js"></script>
   </head> 
   <body>
-  <h1>RESTfulChecker</h1>
+  <div id="navBarOuter">
+    <div class="container">
+    <div id="navBar">
+      <h1>RESTfulChecker</h1>
+            <ul>
+              <li><a href="../">Home</a></li>
+              <li><a href="./">Testing</a></li>
+              <li class="active"><a href="repeatedtesting">Repeated testing</a></li>
+            </ul>
+          </div>
+        </div>
+  </div>
+  <div class="container">
+  <p>Here you can set up the repeated test of an API. The RESTfulChecker can check APIs, which are accessible over HTTP or HTTPS. So you put the URL of the API into "API entry URL". By clicking to "Add header" button, you can specify HTTP headers if the tested API needs them.</p> 
+  <p>Some APIs are too big to be checked entirely. To limit API checking, you fill "max siblings" and "base Url". The max siblings determines how many links will be followed from one API's response. The base Url determines scope - all links outside of the scope won't be followed. It is a good idea to put root address of tested API (eg. https://api.dropbox.com/1/ ) to base Url field. </p>
+  <p>The output of the test will be XML file with information about the test, tested API and its evaluation.</p>
+  
   <p>${apiEntry.message}</p>
+  </div>
+  <div id="apiForm" class="container">
+  <h2>Specify the test</h2>
     <form:form commandName="apiEntry" action="repeatedtesting" >
+    <fieldset>
+    <legend>API entry point</legend>
       <table>
         <tr>
           <td>API entry URL:</td>
@@ -37,6 +58,9 @@
         <c:set var="lastHeaderIndex" value="${status.index}"/>
       </c:forEach>
       </table>
+      </fieldset>
+      <fieldset>
+      <legend>Limit discovered resources count</legend>
       <table>
       <tr>
       	<td><form:label path="maxSiblings">max siblings:</form:label></td>
@@ -47,7 +71,8 @@
       	<td><form:input path="baseUrl"/></td>
       </tr>
       </table>
+      </fieldset>
     </form:form>
-    
+    </div>
   </body>
 </html>

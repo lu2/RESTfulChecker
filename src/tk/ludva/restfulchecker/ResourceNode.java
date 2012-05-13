@@ -211,6 +211,8 @@ public class ResourceNode
 		{
 			resp = currentResource.getResponseCode() + " " + currentResource.getResponseMessage();
 		}
+		htmlOutput.append("<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"
+				+ HttpValidator.toSafeId(currentResource.getUrl()) + "\')); return false\" > close</a> ");
 		htmlOutput.append("<h3>HTTP Response for " + currentResource.getUrl() + "</h3>");
 		htmlOutput.append("<p>" + resp + "</p>");
 		htmlOutput.append("<table class=\"responseHeaders\">");

@@ -11,9 +11,27 @@
     <script type="text/javascript" src="../scripts.js"></script>
   </head> 
   <body>
-  <h1>RESTfulChecker</h1>
+  <div id="navBarOuter">
+    <div class="container">
+    <div id="navBar">
+      <h1>RESTfulChecker</h1>
+            <ul>
+              <li><a href="../">Home</a></li>
+              <li class="active"><a href="./">Testing</a></li>
+              <li><a href="repeatedtesting">Repeated testing</a></li>
+            </ul>
+          </div>
+        </div>
+  </div>
+  <div class="container">
+  <h2>Test evaluation</h2>
   <p>${apiEntry.message}</p>
+  </div>
+  <div id="apiForm" class="container">
+  <h2>Specify new test</h2>
     <form:form commandName="apiEntry" action="./">
+    <fieldset>
+    <legend>API entry point</legend>
       <table>
         <tr>
           <td>API entry URL:</td>
@@ -37,6 +55,9 @@
         <c:set var="lastHeaderIndex" value="${status.index}"/>
       </c:forEach>
       </table>
+      </fieldset>
+      <fieldset>
+      <legend>Limit discovered resources count</legend>
       <table>
       <tr>
       	<td><form:label path="maxSiblings">max siblings:</form:label></td>
@@ -47,7 +68,8 @@
       	<td><form:input path="baseUrl"/></td>
       </tr>
       </table>
+      </fieldset>
     </form:form>
-    
+    </div>
   </body>
 </html>

@@ -82,7 +82,7 @@ public class RestValidator
 		resourceNode
 				.addViolationMessage(
 						"Cache constraint violation",
-						"No information about caching possibility has been found in headers (none of Cache-Control, Expires, Last-Modified header declared).");
+						"No information about response's cacheability (none of Cache-Control, Expires, Last-Modified header declared).");
 	}
 
 	/**
@@ -302,6 +302,6 @@ public class RestValidator
 			}
 		isValid = false;
 		resourceNode.addNonViolationMessage("Uniform Interface constraint warning",
-				"OPTIONS method doesn't giving acceptable verbs list.");
+				"no Allow header in HTTP OPTIONS response.");
 	}
 }

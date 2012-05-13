@@ -3,23 +3,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml"> 
   <head> 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <link type="text/css" rel="stylesheet" href="style.css"/>
     <title>RESTfulChecker</title> 
   </head> 
   <body>
-  <h1>RESTfulChecker</h1>
-  <p>The application for checking REST compliance of APIs.</p>
+  <div id="navBarOuter">
+    <div class="container">
+    <div id="navBar">
+      <h1>RESTfulChecker</h1>
+            <ul>
+              <li class="active"><a href="./">Home</a></li>
+              <li><a href="checkapi/">Testing</a></li>
+              <li><a href="checkapi/repeatedtesting">Repeated testing</a></li>
+            </ul>
+          </div>
+        </div>
+  </div>
+  <div class="container">
+  <h2>The application for checking REST compliance of APIs.</h2>
     <p><a href="checkapi/">You can check if your API is RESTful here.</a></p>
     <p><a href="checkapi/repeatedtesting">For repeated testing, use this link</a> - you can check if your API is RESTful here, but the result is XML. The XML can be used to compare changes in consecutive checking of same API.</p>
+   </div>
+   <p> </p>
+   <div class="container" id="apiForm">
+   <h2>Predefined tests</h2>
     <p>Under the following links there are some APIs tests prepared for you, just click the link, you get pre-filled form, then hit the "Run Tests" button. Then see the results of API testing.</p>
     <ul>
-    <li><a href="checkapi/?url=https://api.github.com/users/torvalds/followers&amp;baseUrl=https://api.github.com/&amp;maxSiblings=3">Checks API of GitHub - the part with followers, max 4 siblings per resource will be discovered.</a></li>
-    <li><a href="checkapi/?url=http://phprestsql.sourceforge.net/tutorial&amp;baseUrl=http://phprestsql.sourceforge.net/tutorial&amp;maxSiblings=5">Checks API of phprestsql, max 5 siblings per resource will be discovered. But this API will not talk to you until authorized...</a>
+    <li><a href="checkapi/?url=https://api.github.com/users/torvalds/followers&amp;baseUrl=https://api.github.com/&amp;maxSiblings=3">Checks API of <strong>GitHub</strong> - the part with followers, max 4 siblings per resource will be discovered.</a></li>
+    <li><a href="checkapi/?url=http://phprestsql.sourceforge.net/tutorial&amp;baseUrl=http://phprestsql.sourceforge.net/tutorial&amp;maxSiblings=5">Checks API of <strong>phprestsql</strong>, max 5 siblings per resource will be discovered. But this API will not talk to you until authorized...</a>
     <ul><li><a href="checkapi/?url=http://phprestsql.sourceforge.net/tutorial&amp;baseUrl=http://phprestsql.sourceforge.net/tutorial&amp;maxSiblings=5&amp;requestHeaders[0].headerKey=Authorization&amp;requestHeaders[0].headerValue=Basic cDEyNjM3MXJ3OmRlbW8=&amp;requestHeaders[0].inUse=1">...Well this link sets even authorization for you.</a></li>
     </ul>
     </li>
-    <li><a href="checkapi/?url=http://picasaweb.google.com/data/feed/api/user/firefoxcampus&amp;baseUrl=http://picasaweb.google.com/data/feed/api/&amp;maxSiblings=4">Checks API of Picasa Web Albums - the part with user, max 5 siblings per resource will be discovered.</a></li>
-    <li><a href="checkapi/?url=http://api.soundcloud.com/tracks/45397255?client_id=YOUR_CLIENT_ID&amp;baseUrl=http://api.soundcloud.com/&amp;maxSiblings=5">Checks API of SoundCloud - the part with track, max 5 siblings per resource will be discovered.</a></li>
+    <li><a href="checkapi/?url=http://picasaweb.google.com/data/feed/api/user/firefoxcampus&amp;baseUrl=http://picasaweb.google.com/data/feed/api/&amp;maxSiblings=4">Checks API of <strong>Picasa Web Albums</strong> - the part with user, max 5 siblings per resource will be discovered.</a></li>
+    <li><a href="checkapi/?url=http://api.soundcloud.com/tracks/45397255?client_id=YOUR_CLIENT_ID&amp;baseUrl=http://api.soundcloud.com/&amp;maxSiblings=5">Checks API of <strong>SoundCloud</strong> - the part with track, max 5 siblings per resource will be discovered.</a></li>
     </ul>
-    
+    </div>
   </body>
 </html>

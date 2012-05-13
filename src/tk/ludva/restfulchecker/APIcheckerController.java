@@ -303,7 +303,7 @@ public class APIcheckerController
 		StringBuilder sb = new StringBuilder(apiEntry.getMessage());
 		sb.append("\n<div id=\"apiTree\">");
 		sb.append("<h4>The API structure:</h4> ");
-		sb.append("<ul>\n");
+		sb.append("<ul class=\"short\">\n");
 		writeResourceNodeTreeView(apiEntry.getResourceNodes(), apiEntry.getBaseUrl(), apiEntry.getMaxSiblings(), sb);
 
 		sb.append("</ul>\n</div><p>");
@@ -327,9 +327,11 @@ public class APIcheckerController
 		{
 			temp = "/";
 		}
-		sb.append("<a href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"
-				+ HttpValidator.toSafeId(resourceNode.getCurrentResource().getUrl()) + "\')); return false\" > more info</a> ");
+		
 		sb.append(temp);
+		
+		sb.append(" <a class=\"right\" href=\"#\" onclick=\"toggleVisibility(document.getElementById(\'"
+				+ HttpValidator.toSafeId(resourceNode.getCurrentResource().getUrl()) + "\')); return false\" > more info</a> ");
 
 		if (resourceNode.getViolationMessages().size() > 0)
 		{
@@ -345,7 +347,7 @@ public class APIcheckerController
 					messagesDisp = messagesDisp.substring(2);
 				}
 				sb.append(" <img src=\"../redDot.gif\" alt=\" x \" title=\"" + violationKey + ": " + messagesDisp
-						+ "\" height=\"13\" width=\"13\" />");
+						+ "\" height=\"13\" width=\"13\" /> ");
 			}
 		}
 
@@ -362,10 +364,11 @@ public class APIcheckerController
 				{
 					messagesDisp = messagesDisp.substring(2);
 				}
-				sb.append(" <img src=\"../orangeDot.gif\" alt=\" ? \" title=\"" + violationKey + ": " + messagesDisp
-						+ "\" height=\"13\" width=\"13\" />");
+				sb.append(" <img class=\"right\" src=\"../orangeDot.gif\" alt=\" ? \" title=\"" + violationKey + ": " + messagesDisp
+						+ "\" height=\"13\" width=\"13\" /> ");
 			}
 		}
+		
 
 		if (resourceNode.getDescendants().size() > 0)
 		{
@@ -514,10 +517,14 @@ public class APIcheckerController
 	private void validateTree(ApiEntry apiEntry)
 	{
 		RestValidator restValidator = new RestValidator(apiEntry.getResourceNodes());
-		String validation;
+		String validation="";
 		if (restValidator.validateApi())
 		{
-			validation = "</p><h4>Automatically checked constraints</h4><p>Cache constraint OK!<br />Layered System constraint OK!<br />Uniform Interface OK! (for resources under the API structure)</p>";
+			if (apiEntry.getQuestionnaires().evaluate().equals(""))
+			{
+				validation = "</p><h3>Great Job! The API is RESTful!</h3><p>";
+			}
+			validation = validation+"</p><h4>Automatically checked constraints</h4><p>Cache constraint OK!<br />Layered System constraint OK!<br />Uniform Interface OK! (for resources under the API structure)</p>";
 		}
 		else
 		{
